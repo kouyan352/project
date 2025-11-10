@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カートをクリア</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2D5F3F;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #b71c1c;
+        }
+        .info {
+            background: #E8F5E9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2D5F3F;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        .status.success {
+            background: #E8F5E9;
+            color: #2D5F3F;
+            display: block;
+        }
+        .status.error {
+            background: #ffebee;
+            color: #d32f2f;
+            display: block;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 カートクリアツール</h1>
+        
+        <div class="info">
+            <h3>このツールでできること：</h3>
+            <ul>
+                <li>カート内の全商品を削除</li>
+                <li>カートの状態を確認</li>
+                <li>問題のあるカートデータをリセット</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>現在のカート状態：</h3>
+            <button onclick="checkCart()">カートを確認</button>
+            <button onclick="clearCart()">カートをクリア</button>
+            <button onclick="testCheckout()" style="background: #2D5F3F;">チェックアウトテスト</button>
+        </div>
+
+        <div id="status" class="status"></div>
+        
+        <div id="cartData" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        // カートの状態を確認
+        async function checkCart() {
+            const statusDiv = document.getElementById('status');
+            const cartDataDiv = document.getElementById('cartData');
+            
+            try {
+                const response = await fetch('/cart.js');
+                const cart = await response.json();
+                
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `
+                    <strong>カート確認完了</strong><br>
+                    商品数: ${cart.item_count}個<br>
+                    合計: ${formatMoney(cart.total_price)}
+                `;
+                
+                cartDataDiv.innerHTML = '<h3>カートの詳細:</h3><pre>' + JSON.stringify(cart, null, 2) + '</pre>';
+                
+                if (cart.item_count > 0) {
+                    console.log('Cart items:', cart.items);
+                    cart.items.forEach((item, index) => {
+                        console.log(`Item ${index + 1}:`, {
+                            title: item.title,
+                            quantity: item.quantity,
+                            price: item.price,
+                            selling_plan: item.selling_plan_allocation
+                        });
+                    });
+                }
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '<strong>エラー:</strong> ' + error.message;
+                console.error('Error checking cart:', error);
+            }
+        }
+
+        // カートをクリア
+        async function clearCart() {
+            if (!confirm('カート内の全商品を削除しますか？')) {
+                return;
+            }
+            
+            const statusDiv = document.getElementById('status');
+            const cartDataDiv = document.getElementById('cartData');
+            
+            statusDiv.className = 'status';
+            statusDiv.innerHTML = '処理中...';
+            statusDiv.style.display = 'block';
+            
+            try {
+                // 現在のカートを取得
+                const response = await fetch('/cart.js');
+                const cart = await response.json();
+                
+                // 全商品の数量を0に設定
+                const updates = {};
+                cart.items.forEach((item, index) => {
+                    updates[(index + 1).toString()] = 0;
+                });
+                
+                // カートを更新
+                const clearResponse = await fetch('/cart/update.js', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ updates: updates })
+                });
+                
+                const clearedCart = await clearResponse.json();
+                
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `
+                    <strong>✓ カートをクリアしました！</strong><br>
+                    残り商品数: ${clearedCart.item_count}個
+                `;
+                
+                cartDataDiv.innerHTML = '<p>カートは空です。</p>';
+                
+                // 3秒後にページをリロード
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+                
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '<strong>エラー:</strong> ' + error.message;
+                console.error('Error clearing cart:', error);
+            }
+        }
+
+        // 金額フォーマット
+        function formatMoney(cents) {
+            const yen = Math.floor(cents / 100);
+            return '¥' + yen.toLocaleString('ja-JP');
+        }
+
+        // チェックアウトテスト
+        async function testCheckout() {
+            const statusDiv = document.getElementById('status');
+            
+            statusDiv.className = 'status';
+            statusDiv.innerHTML = 'チェックアウトをテスト中...';
+            statusDiv.style.display = 'block';
+            
+            try {
+                const response = await fetch('/cart.js');
+                const cart = await response.json();
+                
+                console.log('Cart before checkout:', cart);
+                
+                if (cart.item_count === 0) {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = '<strong>エラー:</strong> カートが空です';
+                    return;
+                }
+                
+                // サブスクリプション情報を確認
+                const subscriptionInfo = cart.items.map(item => ({
+                    title: item.title,
+                    quantity: item.quantity,
+                    has_subscription: !!item.selling_plan_allocation,
+                    selling_plan: item.selling_plan_allocation ? item.selling_plan_allocation.selling_plan.name : 'なし'
+                }));
+                
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `
+                    <strong>✓ チェックアウト準備完了</strong><br>
+                    商品数: ${cart.item_count}個<br>
+                    <br>
+                    <strong>商品詳細:</strong><br>
+                    ${subscriptionInfo.map(info => `
+                        - ${info.title} (${info.quantity}個)<br>
+                        &nbsp;&nbsp;サブスクリプション: ${info.selling_plan}
+                    `).join('<br>')}
+                    <br><br>
+                    <button onclick="window.location.href='/checkout'" style="background: #2D5F3F; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        チェックアウトページに進む
+                    </button>
+                `;
+                
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '<strong>エラー:</strong> ' + error.message;
+                console.error('Error testing checkout:', error);
+            }
+        }
+
+        // ページ読み込み時にカートを確認
+        window.addEventListener('load', checkCart);
+    </script>
+</body>
+</html>

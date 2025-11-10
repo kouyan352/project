@@ -1,0 +1,524 @@
+{% comment %}
+  Product Info Section
+  商品情報セクション
+{% endcomment %}
+
+<div class="product-section">
+  <div class="container">
+    <div class="product-grid">
+      <!-- Product Images -->
+      <div class="product-images">
+        {% if product.featured_image %}
+          <div class="product-image-main">
+            <img src="{{ product.featured_image | img_url: '800x800' }}" 
+                 alt="{{ product.featured_image.alt | escape }}"
+                 loading="lazy">
+          </div>
+        {% endif %}
+        
+        {% if product.images.size > 1 %}
+          <div class="product-image-thumbnails">
+            {% for image in product.images limit: 4 %}
+              <div class="thumbnail">
+                <img src="{{ image | img_url: '200x200' }}" 
+                     alt="{{ image.alt | escape }}"
+                     loading="lazy">
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <h1 class="product-title">{{ product.title }}</h1>
+        
+        <div class="product-price">
+          <span class="price">{{ product.price | money }}</span>
+          {% if product.compare_at_price > product.price %}
+            <span class="compare-price">{{ product.compare_at_price | money }}</span>
+          {% endif %}
+        </div>
+
+        <div class="product-description">
+          {{ product.description }}
+        </div>
+
+        <!-- Product Form with Subscription Support -->
+        <form method="post" action="/cart/add" id="product-form" class="product-form">
+          <input type="hidden" name="form_type" value="product">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="product-variant-id">
+          
+          <div class="product-variants">
+            {% unless product.has_only_default_variant %}
+              {% for option in product.options_with_values %}
+                <div class="product-option">
+                  <label>{{ option.name }}</label>
+                  <select name="option{{ forloop.index }}" id="option-{{ forloop.index }}">
+                    {% for value in option.values %}
+                      <option value="{{ value | escape }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              {% endfor %}
+            {% endunless %}
+          </div>
+
+          {% comment %}
+            サブスクリプションプラン選択
+            Check if the first variant has selling plans
+          {% endcomment %}
+          {% assign first_variant = product.selected_or_first_available_variant %}
+          {% if first_variant.selling_plan_allocations.size > 0 %}
+            <div class="product-option product-selling-plan">
+              <label for="selling-plan-select">
+                購入プラン <span class="required-badge">必須</span>
+              </label>
+              <select name="selling_plan" id="selling-plan-select" required class="selling-plan-select">
+                <option value="" disabled selected>プランを選択してください</option>
+                {% for allocation in first_variant.selling_plan_allocations %}
+                  <option value="{{ allocation.selling_plan.id }}" 
+                          data-price="{{ allocation.price }}"
+                          data-compare-price="{{ allocation.compare_at_price }}">
+                    {{ allocation.selling_plan.name }}
+                    {% if allocation.selling_plan.price_adjustments.size > 0 %}
+                      {% assign adjustment = allocation.selling_plan.price_adjustments.first %}
+                      {% if adjustment.value_type == 'percentage' %}
+                        （{{ adjustment.value }}% オフ）
+                      {% elsif adjustment.value_type == 'fixed_amount' %}
+                        （{{ adjustment.value | money }} オフ）
+                      {% endif %}
+                    {% endif %}
+                    - {{ allocation.price | money }}
+                  </option>
+                {% endfor %}
+              </select>
+              <p class="plan-description">
+                📦 定期購入プランで便利に植物ケアを継続できます
+              </p>
+            </div>
+          {% endif %}
+
+          <div class="product-quantity">
+            <label for="product-quantity">数量</label>
+            <div class="quantity-selector">
+              <button type="button" class="quantity-btn quantity-minus" id="quantity-minus">−</button>
+              <input type="number" 
+                     name="quantity" 
+                     id="product-quantity" 
+                     class="quantity-input"
+                     value="1" 
+                     min="1" 
+                     max="99">
+              <button type="button" class="quantity-btn quantity-plus" id="quantity-plus">+</button>
+            </div>
+          </div>
+
+          <button type="submit" 
+                  class="btn btn-large btn-primary product-add-to-cart"
+                  id="add-to-cart-btn">
+            {% if product.available %}
+              <span class="btn-text">カートに追加</span>
+              <span class="btn-loading" style="display: none;">
+                <svg class="spinner" width="20" height="20" viewBox="0 0 20 20">
+                  <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="50" stroke-dashoffset="0">
+                    <animateTransform attributeName="transform" type="rotate" from="0 10 10" to="360 10 10" dur="1s" repeatCount="indefinite"/>
+                  </circle>
+                </svg>
+                追加中...
+              </span>
+            {% else %}
+              売り切れ
+            {% endif %}
+          </button>
+
+          <div class="product-form-message" id="product-form-message" style="display: none;"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.product-section {
+  padding: 4rem 0;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.product-image-main img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.product-image-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.thumbnail img:hover {
+  transform: scale(1.05);
+}
+
+.product-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.product-price {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.compare-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+}
+
+.product-description {
+  margin-bottom: 2rem;
+  line-height: 1.8;
+  color: #666;
+}
+
+.product-option,
+.product-quantity {
+  margin-bottom: 1.5rem;
+}
+
+.product-option label,
+.product-quantity label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.product-option select,
+.product-quantity input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.product-option select:focus,
+.product-quantity input:focus {
+  outline: none;
+  border-color: var(--primary-color, #2D5F3F);
+}
+
+.product-selling-plan {
+  background: #E8F5E9;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.product-selling-plan label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.required-badge {
+  background: #d32f2f;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.selling-plan-select {
+  background: white;
+}
+
+.plan-description {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Quantity Selector */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 200px;
+}
+
+.quantity-btn {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  color: var(--primary-color, #2D5F3F);
+  font-weight: 600;
+}
+
+.quantity-btn:hover {
+  border-color: var(--primary-color, #2D5F3F);
+  background: rgba(45, 95, 63, 0.05);
+}
+
+.quantity-btn:active {
+  transform: scale(0.95);
+}
+
+.quantity-input {
+  width: 70px;
+  height: 40px;
+  text-align: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.product-add-to-cart {
+  width: 100%;
+  margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-add-to-cart[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.product-form-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.product-form-message.success {
+  background: #E8F5E9;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.product-form-message.error {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .product-title {
+    font-size: 1.75rem;
+  }
+  
+  .product-price {
+    font-size: 1.5rem;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const productForm = document.getElementById('product-form');
+  const quantityInput = document.getElementById('product-quantity');
+  const minusBtn = document.getElementById('quantity-minus');
+  const plusBtn = document.getElementById('quantity-plus');
+  const addToCartBtn = document.getElementById('add-to-cart-btn');
+  const messageDiv = document.getElementById('product-form-message');
+
+  // 数量変更ボタン
+  if (minusBtn) {
+    minusBtn.addEventListener('click', function() {
+      const currentValue = parseInt(quantityInput.value) || 1;
+      quantityInput.value = Math.max(currentValue - 1, 1);
+    });
+  }
+
+  if (plusBtn) {
+    plusBtn.addEventListener('click', function() {
+      const currentValue = parseInt(quantityInput.value) || 1;
+      quantityInput.value = Math.min(currentValue + 1, 99);
+    });
+  }
+
+  // 数量入力フィールドの検証
+  if (quantityInput) {
+    quantityInput.addEventListener('change', function() {
+      const value = parseInt(this.value) || 1;
+      this.value = Math.max(1, Math.min(value, 99));
+    });
+
+    quantityInput.addEventListener('blur', function() {
+      if (!this.value || parseInt(this.value) < 1) {
+        this.value = 1;
+      }
+    });
+  }
+
+  // フォーム送信処理
+  if (productForm) {
+    productForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // サブスクリプションプランチェック
+      const sellingPlanSelect = document.getElementById('selling-plan-select');
+      if (sellingPlanSelect && !sellingPlanSelect.value) {
+        showMessage('購入プランを選択してください', 'error');
+        sellingPlanSelect.focus();
+        return;
+      }
+
+      // ローディング状態
+      const btnText = addToCartBtn.querySelector('.btn-text');
+      const btnLoading = addToCartBtn.querySelector('.btn-loading');
+      
+      if (btnText) btnText.style.display = 'none';
+      if (btnLoading) btnLoading.style.display = 'flex';
+      addToCartBtn.disabled = true;
+
+      // フォームデータ取得
+      const formData = new FormData(productForm);
+
+      // デバッグ: フォームデータを確認
+      const formDataObj = Object.fromEntries(formData);
+      console.log('Form data being sent:', formDataObj);
+      
+      // 重複追加を防ぐためのフラグ
+      if (window.isAddingToCart) {
+        console.log('Already adding to cart, preventing duplicate');
+        return;
+      }
+      window.isAddingToCart = true;
+
+      // Fetch APIでカートに追加
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formDataObj)
+      })
+      .then(response => {
+        console.log('Cart add response status:', response.status);
+        if (!response.ok) {
+          return response.json().then(err => {
+            throw new Error(err.description || 'カートへの追加に失敗しました');
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Successfully added to cart:', data);
+        console.log('Item quantity:', data.quantity);
+        console.log('Selling plan:', data.selling_plan_allocation);
+        
+        showMessage('✓ カートに追加しました！', 'success');
+        
+        // 1.5秒後にカートページへリダイレクト
+        setTimeout(() => {
+          window.location.href = '/cart';
+        }, 1500);
+      })
+      .catch(error => {
+        console.error('Error adding to cart:', error);
+        showMessage('エラー: ' + error.message, 'error');
+        
+        // ボタンを元に戻す
+        if (btnText) btnText.style.display = 'inline';
+        if (btnLoading) btnLoading.style.display = 'none';
+        addToCartBtn.disabled = false;
+        window.isAddingToCart = false;
+      });
+    });
+  }
+
+  // メッセージ表示
+  function showMessage(message, type) {
+    if (messageDiv) {
+      messageDiv.textContent = message;
+      messageDiv.className = 'product-form-message ' + type;
+      messageDiv.style.display = 'block';
+      
+      // 5秒後にメッセージを非表示
+      setTimeout(() => {
+        messageDiv.style.display = 'none';
+      }, 5000);
+    }
+  }
+
+  // バリアント変更時の処理（オプション）
+  const variantSelects = productForm.querySelectorAll('[name^="option"]');
+  variantSelects.forEach(select => {
+    select.addEventListener('change', updateVariant);
+  });
+
+  function updateVariant() {
+    // この関数は必要に応じてバリアント変更時のロジックを実装
+    // 現在は基本的な実装のみ
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Product Info",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Product Info"
+    }
+  ]
+}
+{% endschema %}

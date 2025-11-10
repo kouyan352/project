@@ -1,0 +1,873 @@
+<!-- 
+==============================================
+Shopify ページ用 HTML
+==============================================
+使い方:
+1. Shopify管理画面 → オンラインストア → ページ
+2. 「ページを追加」をクリック
+3. 右上の「<>」（HTMLを表示）をクリック
+4. このファイルの内容を全てコピー&ペーストRUNE
+5. 保存して公開
+
+LINE URL を変更する場合:
+全ての "https://lin.ee/8QakieO" を検索して置換してください
+==============================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* Green Care Custom Styles */
+.green-care-page * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.green-care-page {
+    --primary-color: #2D5F3F;
+    --secondary-color: #4A7C59;
+    --accent-color: #7BA885;
+    --dark-green: #1A3A2A;
+    --light-green: #E8F5E9;
+    --bg-light: #F8FAF9;
+    --text-dark: #1F2937;
+    --text-gray: #6B7280;
+    --text-light: #9CA3AF;
+    --white: #FFFFFF;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text-dark);
+    line-height: 1.7;
+}
+
+.green-care-page h1, .green-care-page h2, .green-care-page h3, .green-care-page h4 {
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.green-care-page .gc-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.green-care-page .gc-section {
+    padding: 4rem 0;
+}
+
+/* Hero Section */
+.green-care-page .gc-hero {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--light-green) 0%, #ffffff 50%, var(--light-green) 100%);
+    overflow: hidden;
+}
+
+.green-care-page .gc-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 4rem 0;
+}
+
+.green-care-page .gc-hero-title {
+    margin-bottom: 2rem;
+}
+
+.green-care-page .gc-title-small {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-gray);
+    margin-bottom: 0.5rem;
+}
+
+.green-care-page .gc-title-large {
+    display: block;
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+}
+
+.green-care-page .gc-hero-description {
+    font-size: 1.25rem;
+    color: var(--text-gray);
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+}
+
+.green-care-page .gc-hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.green-care-page .gc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.125rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.green-care-page .gc-btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    box-shadow: var(--shadow-md);
+}
+
+.green-care-page .gc-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.green-care-page .gc-btn-secondary {
+    background: var(--white);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.green-care-page .gc-btn-secondary:hover {
+    background: var(--light-green);
+}
+
+.green-care-page .gc-btn-outline {
+    background: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+}
+
+.green-care-page .gc-btn-outline:hover {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.green-care-page .gc-hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(45, 95, 63, 0.1);
+}
+
+.green-care-page .gc-stat-item {
+    text-align: center;
+}
+
+.green-care-page .gc-stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.green-care-page .gc-stat-label {
+    font-size: 0.875rem;
+    color: var(--text-gray);
+}
+
+/* Section Headers */
+.green-care-page .gc-section-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.green-care-page .gc-highlight {
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
+
+.green-care-page .gc-section-description {
+    font-size: 1.125rem;
+    color: var(--text-gray);
+    max-width: 600px;
+}
+
+.green-care-page .gc-section-header {
+    margin-bottom: 4rem;
+}
+
+.green-care-page .gc-section-header.center {
+    text-align: center;
+}
+
+.green-care-page .gc-section-header.center .gc-section-description {
+    margin: 0 auto;
+}
+
+/* Problems Section */
+.green-care-page .gc-problems-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.green-care-page .gc-problem-card {
+    background: var(--white);
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(45, 95, 63, 0.08);
+}
+
+.green-care-page .gc-problem-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.green-care-page .gc-problem-icon {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: var(--light-green);
+    border-radius: 50%;
+}
+
+.green-care-page .gc-problem-card h3 {
+    font-size: 1.375rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.green-care-page .gc-problem-card p {
+    color: var(--text-gray);
+    line-height: 1.7;
+}
+
+/* Solution Section */
+.green-care-page .gc-solution {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--white) 100%);
+}
+
+.green-care-page .gc-solution-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.green-care-page .gc-solution-text .gc-section-title {
+    margin-bottom: 1.5rem;
+}
+
+.green-care-page .gc-solution-description {
+    font-size: 1.125rem;
+    color: var(--text-gray);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+
+.green-care-page .gc-phone-mockup {
+    width: 300px;
+    height: 600px;
+    background: #1F2937;
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow: var(--shadow-xl);
+    margin: 0 auto;
+}
+
+.green-care-page .gc-phone-screen {
+    width: 100%;
+    height: 100%;
+    background: var(--white);
+    border-radius: 32px;
+    overflow: hidden;
+}
+
+.green-care-page .gc-chat-interface {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #F3F4F6;
+}
+
+.green-care-page .gc-chat-header {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 3rem 1rem 1rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+}
+
+.green-care-page .gc-chat-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--white);
+    border-radius: 50%;
+}
+
+.green-care-page .gc-chat-messages {
+    flex: 1;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.green-care-page .gc-message {
+    display: flex;
+}
+
+.green-care-page .gc-message.received {
+    justify-content: flex-start;
+}
+
+.green-care-page .gc-message.sent {
+    justify-content: flex-end;
+}
+
+.green-care-page .gc-message-bubble {
+    max-width: 75%;
+    padding: 0.75rem 1rem;
+    border-radius: 18px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.green-care-page .gc-message.received .gc-message-bubble {
+    background: var(--white);
+    color: var(--text-dark);
+}
+
+.green-care-page .gc-message.sent .gc-message-bubble {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+/* Features Section */
+.green-care-page .gc-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.green-care-page .gc-feature-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    padding: 3rem;
+    background: var(--bg-light);
+    border-radius: 24px;
+    border: 1px solid rgba(45, 95, 63, 0.08);
+    transition: all 0.3s ease;
+}
+
+.green-care-page .gc-feature-item:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+}
+
+.green-care-page .gc-feature-number {
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--light-green);
+    line-height: 1;
+    font-family: 'Playfair Display', serif;
+}
+
+.green-care-page .gc-feature-content h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.green-care-page .gc-feature-content p {
+    font-size: 1.125rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.green-care-page .gc-feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.green-care-page .gc-feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-gray);
+    font-size: 1rem;
+}
+
+.green-care-page .gc-feature-list li::before {
+    content: '✓';
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+/* Pricing Section */
+.green-care-page .gc-pricing {
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--light-green) 100%);
+}
+
+.green-care-page .gc-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.green-care-page .gc-pricing-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.green-care-page .gc-pricing-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.green-care-page .gc-pricing-card.featured {
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.green-care-page .gc-pricing-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.green-care-page .gc-pricing-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--light-green);
+}
+
+.green-care-page .gc-pricing-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.green-care-page .gc-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.green-care-page .gc-price-amount {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.green-care-page .gc-price-period {
+    font-size: 1.125rem;
+    color: var(--text-gray);
+}
+
+.green-care-page .gc-pricing-features {
+    list-style: none;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.green-care-page .gc-pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-dark);
+    font-size: 0.9375rem;
+}
+
+.green-care-page .gc-pricing-features li.disabled {
+    color: var(--text-light);
+}
+
+.green-care-page .gc-pricing-card .gc-btn {
+    width: 100%;
+    justify-content: center;
+}
+
+/* CTA Section */
+.green-care-page .gc-cta {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    text-align: center;
+}
+
+.green-care-page .gc-cta-content h2 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+}
+
+.green-care-page .gc-cta-content p {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.green-care-page .gc-btn-white {
+    background: var(--white);
+    color: var(--primary-color);
+}
+
+.green-care-page .gc-btn-white:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .green-care-page .gc-solution-content,
+    .green-care-page .gc-feature-item {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .green-care-page .gc-phone-mockup {
+        width: 260px;
+        height: 520px;
+    }
+}
+
+@media (max-width: 768px) {
+    .green-care-page .gc-title-large {
+        font-size: 2.5rem;
+    }
+    .green-care-page .gc-title-small {
+        font-size: 1.125rem;
+    }
+    .green-care-page .gc-hero-description {
+        font-size: 1.125rem;
+    }
+    .green-care-page .gc-hero-cta {
+        flex-direction: column;
+    }
+    .green-care-page .gc-hero-stats {
+        gap: 2rem;
+    }
+    .green-care-page .gc-section-title {
+        font-size: 2rem;
+    }
+    .green-care-page .gc-problems-grid {
+        grid-template-columns: 1fr;
+    }
+    .green-care-page .gc-pricing-grid {
+        grid-template-columns: 1fr;
+    }
+    .green-care-page .gc-pricing-card.featured {
+        transform: scale(1);
+    }
+    .green-care-page .gc-cta-content h2 {
+        font-size: 2rem;
+    }
+    .green-care-page .gc-feature-item {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .green-care-page .gc-container {
+        padding: 0 16px;
+    }
+    .green-care-page .gc-hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .green-care-page .gc-title-large {
+        font-size: 2rem;
+    }
+}
+</style>
+
+<div class="green-care-page">
+    <!-- Hero Section -->
+    <section class="gc-hero gc-section">
+        <div class="gc-container">
+            <div class="gc-hero-content">
+                <h1 class="gc-hero-title">
+                    <span class="gc-title-small">水やりもSOSも、</span>
+                    <span class="gc-title-large">すべてスマホで。</span>
+                </h1>
+                <p class="gc-hero-description">
+                    観葉植物のお悩み、もう一人で抱えない。<br>
+                    LINEで専門家に相談できる、新しい植物ライフ。
+                </p>
+                <div class="gc-hero-cta">
+                    <a href="https://lin.ee/8QakieO" class="gc-btn gc-btn-primary" target="_blank" rel="noopener">
+                        LINEで無料相談を始める
+                    </a>
+                    <a href="#features" class="gc-btn gc-btn-secondary">詳しく見る</a>
+                </div>
+                <div class="gc-hero-stats">
+                    <div class="gc-stat-item">
+                        <div class="gc-stat-number">24h</div>
+                        <div class="gc-stat-label">以内に回答</div>
+                    </div>
+                    <div class="gc-stat-item">
+                        <div class="gc-stat-number">10,000+</div>
+                        <div class="gc-stat-label">相談実績</div>
+                    </div>
+                    <div class="gc-stat-item">
+                        <div class="gc-stat-number">98%</div>
+                        <div class="gc-stat-label">満足度</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section id="problems" class="gc-section">
+        <div class="gc-container">
+            <div class="gc-section-header">
+                <h2 class="gc-section-title">
+                    こんな悩み、<br>
+                    <span class="gc-highlight">一人で抱えていませんか？</span>
+                </h2>
+            </div>
+            <div class="gc-problems-grid">
+                <div class="gc-problem-card">
+                    <div class="gc-problem-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <circle cx="24" cy="24" r="20" stroke="#4A7C59" stroke-width="2"/>
+                            <path d="M24 16V24M24 32H24.02" stroke="#4A7C59" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>水やりのタイミングが<br>分からない</h3>
+                    <p>いつ水をあげればいいのか、どれくらいあげればいいのか、判断に困っていませんか？</p>
+                </div>
+                <div class="gc-problem-card">
+                    <div class="gc-problem-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <path d="M24 8C24 8 14 14 14 24C14 29.5228 18.4772 34 24 34C29.5228 34 34 29.5228 34 24C34 14 24 8 24 8Z" stroke="#4A7C59" stroke-width="2"/>
+                            <path d="M24 34V42M18 42H30" stroke="#4A7C59" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>すぐに枯れてしまう</h3>
+                    <p>大切に育てているつもりなのに、気づいたら元気がなくなっている...</p>
+                </div>
+                <div class="gc-problem-card">
+                    <div class="gc-problem-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <circle cx="18" cy="18" r="8" stroke="#4A7C59" stroke-width="2"/>
+                            <circle cx="30" cy="28" r="8" stroke="#4A7C59" stroke-width="2"/>
+                            <path d="M24 18H28M20 28H26" stroke="#4A7C59" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>相談相手がいない</h3>
+                    <p>周りに詳しい人がいない。調べても情報が多すぎて何が正しいか分からない...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="gc-solution gc-section">
+        <div class="gc-container">
+            <div class="gc-solution-content">
+                <div class="gc-solution-text">
+                    <h2 class="gc-section-title">
+                        その悩み、<br>
+                        <span class="gc-highlight">スマホサポートで解決</span>します。
+                    </h2>
+                    <p class="gc-solution-description">
+                        Green Careは、あなたの観葉植物ライフを<br>
+                        LINEでサポートする新しいサービスです。<br>
+                        専門家への相談も、水やりリマインダーも、<br>
+                        すべてスマホひとつで完結します。
+                    </p>
+                    <a href="https://lin.ee/8QakieO" class="gc-btn gc-btn-primary" target="_blank" rel="noopener">今すぐLINEで始める</a>
+                </div>
+                <div class="gc-solution-image">
+                    <div class="gc-phone-mockup">
+                        <div class="gc-phone-screen">
+                            <div class="gc-chat-interface">
+                                <div class="gc-chat-header">
+                                    <div class="gc-chat-avatar"></div>
+                                    <span>Green Care サポート</span>
+                                </div>
+                                <div class="gc-chat-messages">
+                                    <div class="gc-message received">
+                                        <div class="gc-message-bubble">葉っぱが黄色くなってきました...</div>
+                                    </div>
+                                    <div class="gc-message sent">
+                                        <div class="gc-message-bubble">写真を送っていただけますか？<br>すぐに確認いたします！</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="gc-section">
+        <div class="gc-container">
+            <div class="gc-section-header center">
+                <h2 class="gc-section-title">Green Careの<span class="gc-highlight">3つの特長</span></h2>
+                <p class="gc-section-description">あなたの植物ライフを、もっと楽しく、もっと安心に。</p>
+            </div>
+            <div class="gc-features-list">
+                <div class="gc-feature-item">
+                    <div class="gc-feature-number">01</div>
+                    <div class="gc-feature-content">
+                        <h3>24時間以内に専門家が回答</h3>
+                        <p>植物が弱ったら、すぐLINEでSOS！ボタン一つでチャットボットが即時回答。解決しない場合は、写真と症状を送るだけ。専門家が原則24時間以内に具体的な対処法を直接お届けします。</p>
+                        <ul class="gc-feature-list">
+                            <li>チャットボットによる即時回答</li>
+                            <li>写真診断で正確なアドバイス</li>
+                            <li>経験豊富な専門家が対応</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="gc-feature-item">
+                    <div class="gc-feature-number">02</div>
+                    <div class="gc-feature-content">
+                        <h3>水やりリマインダー機能</h3>
+                        <p>水やりタイミングを自動計算し、最適な日にLINEへ通知。植物の種類や設置場所に合わせて通知するため、「いつ」「どれくらい」の悩みを解消。あなたの植物ライフに合わせた、パーソナルな水やりサポートを実現します。</p>
+                        <ul class="gc-feature-list">
+                            <li>植物ごとの最適なタイミング通知</li>
+                            <li>季節や環境に応じた自動調整</li>
+                            <li>水やり履歴の記録・管理</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="gc-feature-item">
+                    <div class="gc-feature-number">03</div>
+                    <div class="gc-feature-content">
+                        <h3>パーソナルな植物管理</h3>
+                        <p>あなたの育てている植物情報を登録して、一元管理。それぞれの植物に合わせた最適なケア方法をご提案。成長記録も残せるので、植物との思い出も一緒に育てていけます。</p>
+                        <ul class="gc-feature-list">
+                            <li>複数の植物を一括管理</li>
+                            <li>成長記録を写真で保存</li>
+                            <li>個別の育成アドバイス</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="plans" class="gc-pricing gc-section">
+        <div class="gc-container">
+            <div class="gc-section-header center">
+                <h2 class="gc-section-title">あなたにぴったりの<span class="gc-highlight">プランを見つける</span></h2>
+                <p class="gc-section-description">まずは無料でお試し。いつでもプラン変更可能です。</p>
+            </div>
+            <div class="gc-pricing-grid">
+                <div class="gc-pricing-card">
+                    <div class="gc-pricing-header">
+                        <h3>フリープラン</h3>
+                        <div class="gc-price">
+                            <span class="gc-price-amount">¥0</span>
+                            <span class="gc-price-period">/月</span>
+                        </div>
+                    </div>
+                    <ul class="gc-pricing-features">
+                        <li>✓ 水やりリマインダー（1植物まで）</li>
+                        <li>✓ チャットボット相談（無制限）</li>
+                        <li>✓ 基本的な育て方ガイド</li>
+                        <li class="disabled">✗ 専門家への相談</li>
+                        <li class="disabled">✗ 複数植物の管理</li>
+                    </ul>
+                    <a href="https://lin.ee/8QakieO" class="gc-btn gc-btn-outline" target="_blank" rel="noopener">無料で始める</a>
+                </div>
+                
+                <div class="gc-pricing-card featured">
+                    <div class="gc-pricing-badge">人気</div>
+                    <div class="gc-pricing-header">
+                        <h3>スタンダード</h3>
+                        <div class="gc-price">
+                            <span class="gc-price-amount">¥980</span>
+                            <span class="gc-price-period">/月</span>
+                        </div>
+                    </div>
+                    <ul class="gc-pricing-features">
+                        <li>✓ 水やりリマインダー（5植物まで）</li>
+                        <li>✓ チャットボット相談（無制限）</li>
+                        <li>✓ 専門家相談（月3回まで）</li>
+                        <li>✓ 成長記録・写真保存</li>
+                        <li>✓ 24時間以内の回答保証</li>
+                    </ul>
+                    <a href="https://lin.ee/8QakieO" class="gc-btn gc-btn-primary" target="_blank" rel="noopener">このプランを選ぶ</a>
+                </div>
+                
+                <div class="gc-pricing-card">
+                    <div class="gc-pricing-header">
+                        <h3>プレミアム</h3>
+                        <div class="gc-price">
+                            <span class="gc-price-amount">¥1,980</span>
+                            <span class="gc-price-period">/月</span>
+                        </div>
+                    </div>
+                    <ul class="gc-pricing-features">
+                        <li>✓ 水やりリマインダー（無制限）</li>
+                        <li>✓ チャットボット相談（無制限）</li>
+                        <li>✓ 専門家相談（無制限）</li>
+                        <li>✓ ビデオ通話サポート</li>
+                        <li>✓ 優先サポート（12時間以内）</li>
+                    </ul>
+                    <a href="https://lin.ee/8QakieO" class="gc-btn gc-btn-outline" target="_blank" rel="noopener">このプランを選ぶ</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="gc-cta gc-section">
+        <div class="gc-container">
+            <div class="gc-cta-content">
+                <h2>今すぐ始めよう、<br>新しい植物ライフ。</h2>
+                <p>まずは無料プランから。LINEで簡単に始められます。</p>
+                <a href="https://lin.ee/8QakieO" class="gc-btn gc-btn-white" target="_blank" rel="noopener">
+                    LINEで無料登録
+                </a>
+            </div>
+        </div>
+    </section>
+</div>

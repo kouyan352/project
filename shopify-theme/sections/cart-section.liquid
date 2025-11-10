@@ -1,0 +1,892 @@
+{% comment %}
+  Cart Section
+  カートセクション - 商品一覧、数量変更、価格計算を管理
+{% endcomment %}
+
+<div class="cart-section">
+  <div class="container">
+    <h1 class="cart-title">ショッピングカート</h1>
+
+    {% if cart.item_count > 0 %}
+      <div class="cart-content">
+        <form action="/cart" method="post" id="cart-form" class="cart-form">
+          <input type="hidden" name="form_type" value="cart">
+          <input type="hidden" name="utf8" value="✓">
+          
+          <div class="cart-items">
+            {% for item in cart.items %}
+              <div class="cart-item" data-line-item="{{ forloop.index }}">
+                <div class="cart-item-image">
+                  {% if item.image %}
+                    <img src="{{ item.image | img_url: '200x200' }}" 
+                         alt="{{ item.title | escape }}"
+                         loading="lazy">
+                  {% else %}
+                    <div class="no-image">画像なし</div>
+                  {% endif %}
+                </div>
+
+                <div class="cart-item-details">
+                  <h3 class="cart-item-title">
+                    <a href="{{ item.url }}">{{ item.product.title }}</a>
+                  </h3>
+                  
+                  {% if item.variant.title != 'Default Title' %}
+                    <p class="cart-item-variant">{{ item.variant.title }}</p>
+                  {% endif %}
+
+                  {% comment %}
+                    サブスクリプションプラン情報表示
+                  {% endcomment %}
+                  {% if item.selling_plan_allocation %}
+                    <div class="cart-item-subscription">
+                      <span class="subscription-badge">📦 定期購入</span>
+                      <p class="subscription-name">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                    </div>
+                  {% endif %}
+
+                  {% comment %}
+                    プロパティ情報表示（カスタマイズオプションなど）
+                  {% endcomment %}
+                  {% unless item.properties == empty %}
+                    <div class="cart-item-properties">
+                      {% for property in item.properties %}
+                        {% unless property.first contains '_' %}
+                          <p>
+                            <strong>{{ property.first }}:</strong> {{ property.last }}
+                          </p>
+                        {% endunless %}
+                      {% endfor %}
+                    </div>
+                  {% endunless %}
+                </div>
+
+                <div class="cart-item-price">
+                  {% if item.original_line_price != item.final_line_price %}
+                    <span class="cart-item-original-price">{{ item.original_line_price | money }}</span>
+                  {% endif %}
+                  <span class="cart-item-final-price" data-item-price="{{ item.final_price }}">
+                    {{ item.final_line_price | money }}
+                  </span>
+                  {% if item.original_line_price != item.final_line_price %}
+                    <span class="cart-item-discount">
+                      割引: {{ item.original_line_price | minus: item.final_line_price | money }}
+                    </span>
+                  {% endif %}
+                </div>
+
+                <div class="cart-item-quantity">
+                  <label for="updates_{{ item.key }}">数量</label>
+                  <div class="quantity-selector">
+                    <button type="button" class="quantity-btn quantity-minus" data-line="{{ forloop.index }}">−</button>
+                    <input type="number" 
+                           name="updates[]" 
+                           id="updates_{{ item.key }}"
+                           class="quantity-input"
+                           value="{{ item.quantity }}" 
+                           min="0" 
+                           max="99"
+                           data-line="{{ forloop.index }}"
+                           data-item-price="{{ item.final_price }}">
+                    <button type="button" class="quantity-btn quantity-plus" data-line="{{ forloop.index }}">+</button>
+                  </div>
+                  <p class="cart-item-unit-price">単価: {{ item.final_price | money }}</p>
+                </div>
+
+                <div class="cart-item-remove">
+                  <button type="button" class="remove-item-btn" data-line="{{ forloop.index }}" title="削除">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="cart-actions">
+            <button type="submit" name="update" class="btn btn-secondary cart-update-btn">
+              カートを更新
+            </button>
+            <button type="button" class="btn btn-tertiary cart-clear-btn">
+              カートを空にする
+            </button>
+          </div>
+        </form>
+
+        <div class="cart-summary">
+          <div class="cart-summary-inner">
+            <h2>注文サマリー</h2>
+            
+            <div class="cart-summary-line">
+              <span>小計（{{ cart.item_count }}点）</span>
+              <span class="cart-subtotal" data-cart-subtotal="{{ cart.total_price }}">
+                {{ cart.total_price | money }}
+              </span>
+            </div>
+
+            {% if cart.total_discount > 0 %}
+              <div class="cart-summary-line cart-discount">
+                <span>割引</span>
+                <span class="discount-amount">-{{ cart.total_discount | money }}</span>
+              </div>
+            {% endif %}
+
+            {% if cart.cart_level_discount_applications.size > 0 %}
+              <div class="cart-discounts">
+                {% for discount in cart.cart_level_discount_applications %}
+                  <div class="discount-item">
+                    <span class="discount-badge">🎉 {{ discount.title }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <div class="cart-summary-note">
+              <p>※ 送料と税金はチェックアウト時に計算されます</p>
+            </div>
+
+            <div class="cart-summary-total">
+              <span>合計</span>
+              <span class="cart-total-price" data-cart-total="{{ cart.total_price }}">
+                {{ cart.total_price | money }}
+              </span>
+            </div>
+
+            {% if section.settings.cart_notes_enable %}
+              <div class="cart-note">
+                <label for="cart-note">注文メモ（オプション）</label>
+                <textarea name="note" id="cart-note" placeholder="特別な要望があればこちらに記入してください">{{ cart.note }}</textarea>
+              </div>
+            {% endif %}
+
+            <button type="button" class="btn btn-primary btn-large checkout-btn" id="checkout-btn">
+              レジに進む
+            </button>
+
+            <a href="/collections/all" class="continue-shopping">
+              ← ショッピングを続ける
+            </a>
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+      <div class="cart-empty">
+        <div class="cart-empty-icon">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="38" stroke="#e0e0e0" stroke-width="4"/>
+            <path d="M25 35L35 45L55 25" stroke="#e0e0e0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2>カートは空です</h2>
+        <p>まだ商品が追加されていません</p>
+        <a href="/" class="btn btn-primary">ホームに戻る</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+.cart-section {
+  padding: 4rem 0;
+  min-height: 60vh;
+}
+
+.cart-title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: var(--primary-color, #2D5F3F);
+  text-align: center;
+}
+
+.cart-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Cart Items */
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 120px 1fr auto auto auto;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  align-items: center;
+  transition: box-shadow 0.3s;
+}
+
+.cart-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.cart-item-image img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.no-image {
+  width: 120px;
+  height: 120px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: #999;
+}
+
+.cart-item-details {
+  flex: 1;
+}
+
+.cart-item-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.cart-item-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.cart-item-title a:hover {
+  opacity: 0.7;
+}
+
+.cart-item-variant {
+  color: #666;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.cart-item-subscription {
+  margin-top: 0.5rem;
+}
+
+.subscription-badge {
+  display: inline-block;
+  background: #E8F5E9;
+  color: var(--primary-color, #2D5F3F);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.subscription-name {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.cart-item-properties {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Price */
+.cart-item-price {
+  text-align: right;
+  min-width: 120px;
+}
+
+.cart-item-original-price {
+  display: block;
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.cart-item-final-price {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.cart-item-discount {
+  display: block;
+  color: #d32f2f;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* Quantity Selector */
+.cart-item-quantity {
+  min-width: 150px;
+}
+
+.cart-item-quantity label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-btn {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.quantity-btn:hover {
+  border-color: var(--primary-color, #2D5F3F);
+  background: rgba(45, 95, 63, 0.05);
+}
+
+.quantity-input {
+  width: 60px;
+  height: 32px;
+  text-align: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.cart-item-unit-price {
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: 0.5rem;
+}
+
+/* Remove Button */
+.cart-item-remove {
+  min-width: 40px;
+}
+
+.remove-item-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #999;
+  transition: all 0.3s;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-item-btn:hover {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+/* Cart Actions */
+.cart-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.cart-update-btn,
+.cart-clear-btn {
+  flex: 1;
+}
+
+/* Cart Summary */
+.cart-summary {
+  position: sticky;
+  top: 2rem;
+}
+
+.cart-summary-inner {
+  background: white;
+  border: 2px solid var(--primary-color, #2D5F3F);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.cart-summary h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.cart-summary-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.cart-discount {
+  color: #d32f2f;
+}
+
+.cart-discounts {
+  margin: 1rem 0;
+}
+
+.discount-item {
+  background: #E8F5E9;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.discount-badge {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.cart-summary-note {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.cart-summary-note p {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+}
+
+.cart-summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 2px solid #e0e0e0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.cart-total-price {
+  font-size: 1.75rem;
+}
+
+.cart-note {
+  margin: 1.5rem 0;
+}
+
+.cart-note label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.cart-note textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.checkout-btn {
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+.continue-shopping {
+  display: block;
+  text-align: center;
+  color: var(--primary-color, #2D5F3F);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.continue-shopping:hover {
+  opacity: 0.7;
+}
+
+/* Empty Cart */
+.cart-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.cart-empty-icon {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.cart-empty h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+.cart-empty p {
+  color: #999;
+  margin-bottom: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .cart-content {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-title {
+    font-size: 1.75rem;
+  }
+
+  .cart-item {
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+  }
+
+  .cart-item-image img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .cart-item-price,
+  .cart-item-quantity,
+  .cart-item-remove {
+    grid-column: 2;
+  }
+
+  .cart-item-price {
+    order: -1;
+    margin-bottom: 0.5rem;
+  }
+
+  .cart-item-quantity {
+    margin: 1rem 0;
+  }
+
+  .cart-actions {
+    flex-direction: column;
+  }
+
+  .cart-summary-inner {
+    padding: 1.5rem;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const cartForm = document.getElementById('cart-form');
+  if (!cartForm) return;
+
+  // デバッグ: カートの状態をログ出力
+  console.log('Cart page loaded');
+  console.log('Cart items count:', document.querySelectorAll('.cart-item').length);
+  
+  // カートAPIで実際の状態を確認
+  fetch('/cart.js')
+    .then(res => res.json())
+    .then(cart => {
+      console.log('Actual cart from API:', cart);
+      console.log('Item count:', cart.item_count);
+      if (cart.items) {
+        cart.items.forEach((item, idx) => {
+          console.log(`Item ${idx + 1}:`, {
+            title: item.title,
+            quantity: item.quantity,
+            price: item.price,
+            line_price: item.line_price
+          });
+        });
+      }
+    });
+
+  // 数量変更ボタン
+  document.querySelectorAll('.quantity-plus, .quantity-minus').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const line = this.dataset.line;
+      const input = document.querySelector(`.quantity-input[data-line="${line}"]`);
+      const currentValue = parseInt(input.value) || 1;
+      
+      if (this.classList.contains('quantity-plus')) {
+        input.value = Math.min(currentValue + 1, 99);
+      } else {
+        input.value = Math.max(currentValue - 1, 0);
+      }
+      
+      console.log(`Quantity changed for line ${line}: ${input.value}`);
+      
+      // 表示を更新
+      updateLineItemPrice(input);
+      updateCartTotal();
+    });
+  });
+
+  // 数量入力フィールドの直接変更
+  document.querySelectorAll('.quantity-input').forEach(input => {
+    input.addEventListener('change', function() {
+      const value = parseInt(this.value) || 0;
+      this.value = Math.max(0, Math.min(value, 99));
+      console.log(`Input changed for line ${this.dataset.line}: ${this.value}`);
+      updateLineItemPrice(this);
+      updateCartTotal();
+    });
+  });
+
+  // 行アイテム価格を更新（表示のみ）
+  function updateLineItemPrice(input) {
+    const line = input.dataset.line;
+    const itemPrice = parseInt(input.dataset.itemPrice) || 0;
+    const quantity = parseInt(input.value) || 0;
+    const lineTotal = itemPrice * quantity;
+    
+    const priceElement = document.querySelector(`.cart-item[data-line-item="${line}"] .cart-item-final-price`);
+    if (priceElement) {
+      priceElement.textContent = formatMoney(lineTotal);
+    }
+  }
+
+  // カート合計を更新（表示のみ）
+  function updateCartTotal() {
+    let total = 0;
+    document.querySelectorAll('.quantity-input').forEach(input => {
+      const itemPrice = parseInt(input.dataset.itemPrice) || 0;
+      const quantity = parseInt(input.value) || 0;
+      total += itemPrice * quantity;
+    });
+    
+    const subtotalElement = document.querySelector('.cart-subtotal');
+    const totalElement = document.querySelector('.cart-total-price');
+    
+    if (subtotalElement) {
+      subtotalElement.textContent = formatMoney(total);
+    }
+    if (totalElement) {
+      totalElement.textContent = formatMoney(total);
+    }
+  }
+
+  // 金額フォーマット
+  function formatMoney(cents) {
+    const yen = Math.floor(cents / 100);
+    return '¥' + yen.toLocaleString('ja-JP');
+  }
+
+  // 削除ボタン - Fetch APIで削除
+  document.querySelectorAll('.remove-item-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      if (!confirm('この商品を削除しますか？')) return;
+      
+      const line = this.dataset.line;
+      console.log(`Removing item at line ${line}`);
+      
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+      
+      // Fetch APIで削除（quantity = 0に設定）
+      fetch('/cart/change.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          line: parseInt(line),
+          quantity: 0
+        })
+      })
+      .then(res => res.json())
+      .then(cart => {
+        console.log('Item removed, new cart:', cart);
+        // ページをリロードして最新のカート状態を表示
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error removing item:', error);
+        alert('削除に失敗しました。もう一度お試しください。');
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      });
+    });
+  });
+
+  // カートを空にする - Fetch APIで全削除
+  const clearBtn = document.querySelector('.cart-clear-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      if (!confirm('カート内の全ての商品を削除してもよろしいですか？')) return;
+      
+      console.log('Clearing entire cart');
+      clearBtn.disabled = true;
+      clearBtn.textContent = '削除中...';
+      
+      // 全商品の数量を0に設定
+      const updates = {};
+      document.querySelectorAll('.quantity-input').forEach((input, index) => {
+        updates[index + 1] = 0;
+      });
+      
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ updates })
+      })
+      .then(res => res.json())
+      .then(cart => {
+        console.log('Cart cleared:', cart);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error clearing cart:', error);
+        alert('削除に失敗しました。もう一度お試しください。');
+        clearBtn.disabled = false;
+        clearBtn.textContent = 'カートを空にする';
+      });
+    });
+  }
+
+  // カート更新ボタン - Fetch APIで更新
+  const updateBtn = document.querySelector('.cart-update-btn');
+  if (updateBtn) {
+    updateBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      console.log('Updating cart...');
+      
+      // ローディング表示
+      const originalText = updateBtn.textContent;
+      updateBtn.textContent = '更新中...';
+      updateBtn.disabled = true;
+      
+      // 各行の数量を取得
+      const updates = {};
+      document.querySelectorAll('.quantity-input').forEach((input, index) => {
+        const quantity = parseInt(input.value) || 0;
+        updates[index + 1] = quantity;
+        console.log(`Line ${index + 1}: quantity = ${quantity}`);
+      });
+      
+      // Fetch APIでカート更新
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ updates })
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('カートの更新に失敗しました');
+        }
+        return res.json();
+      })
+      .then(cart => {
+        console.log('Cart updated successfully:', cart);
+        // ページをリロードして最新のカート状態を表示
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error updating cart:', error);
+        alert('更新に失敗しました。もう一度お試しください。');
+        updateBtn.textContent = originalText;
+        updateBtn.disabled = false;
+      });
+    });
+  }
+
+  // チェックアウトボタン
+  const checkoutBtn = document.getElementById('checkout-btn');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', function() {
+      console.log('Proceeding to checkout...');
+      
+      // カートの状態を確認
+      fetch('/cart.js')
+        .then(res => res.json())
+        .then(cart => {
+          console.log('Cart state before checkout:', cart);
+          
+          // サブスクリプション商品があるか確認
+          const hasSubscription = cart.items.some(item => item.selling_plan_allocation);
+          console.log('Has subscription items:', hasSubscription);
+          
+          if (cart.item_count === 0) {
+            alert('カートが空です');
+            return;
+          }
+          
+          // チェックアウトページに遷移
+          window.location.href = '/checkout';
+        })
+        .catch(error => {
+          console.error('Error checking cart:', error);
+          // エラーでもチェックアウトを試みる
+          window.location.href = '/checkout';
+        });
+    });
+  }
+
+  // ページ読み込み時に表示価格を初期化
+  updateCartTotal();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Cart Section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "cart_notes_enable",
+      "label": "Enable cart notes",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cart Section"
+    }
+  ]
+}
+{% endschema %}

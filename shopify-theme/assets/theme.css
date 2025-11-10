@@ -1,0 +1,32 @@
+/* Basic Shopify Theme CSS */
+.skip-to-content-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+}
+
+.skip-to-content-link:focus {
+  left: 50%;
+  transform: translateX(-50%);
+  top: 1rem;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  word-wrap: normal !important;
+}
+
+.focus-none:focus {
+  outline: none;
+}
+
+.content-for-layout {
+  min-height: 50vh;
+}

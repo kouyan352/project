@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ジーファイブ - 変更点サマリー</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #2D5F3F;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .change-section {
+            margin-bottom: 40px;
+            border-left: 5px solid #2D5F3F;
+            padding-left: 25px;
+        }
+        
+        .change-title {
+            font-size: 1.8rem;
+            color: #2D5F3F;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .badge-new {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .badge-updated {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .change-description {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .comparison-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .before-box, .after-box {
+            padding: 25px;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .before-box {
+            background: #ffebee;
+            border: 2px solid #ef5350;
+        }
+        
+        .after-box {
+            background: #e8f5e9;
+            border: 2px solid #66bb6a;
+        }
+        
+        .box-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .before-box .box-label {
+            background: #ef5350;
+            color: white;
+        }
+        
+        .after-box .box-label {
+            background: #66bb6a;
+            color: white;
+        }
+        
+        .box-content {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .box-content ul {
+            margin-left: 20px;
+        }
+        
+        .box-content li {
+            margin: 8px 0;
+        }
+        
+        .code-box {
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+        }
+        
+        .highlight-add {
+            background: #c8e6c9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .highlight-remove {
+            background: #ffcdd2;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-decoration: line-through;
+        }
+        
+        .icon-large {
+            font-size: 2rem;
+        }
+        
+        .download-section {
+            background: linear-gradient(135deg, #2D5F3F 0%, #2ECC71 100%);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .download-section h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: white;
+            color: #2D5F3F;
+            text-decoration: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+        
+        .file-list {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #2D5F3F;
+        }
+        
+        .file-icon {
+            font-size: 2rem;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 700;
+            color: #2D5F3F;
+            font-size: 1.1rem;
+        }
+        
+        .file-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .comparison-box {
+                grid-template-columns: 1fr;
+            }
+            
+            .change-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌿 ジーファイブ Shopifyテーマ</h1>
+        <p class="subtitle">変更点サマリー - 最新アップデート情報</p>
+        
+        <!-- 変更1: オープニングアニメーション -->
+        <div class="change-section">
+            <div class="change-title">
+                <span class="icon-large">🎬</span>
+                <span>オープニングアニメーション</span>
+                <span class="badge badge-updated">更新</span>
+            </div>
+            
+            <p class="change-description">
+                ウェブサイトを開くたびに毎回表示されるように変更しました。
+            </p>
+            
+            <div class="comparison-box">
+                <div class="before-box">
+                    <span class="box-label">変更前</span>
+                    <div class="box-content">
+                        <ul>
+                            <li>❌ 初回訪問のみ表示</li>
+                            <li>❌ 2回目以降は表示されない</li>
+                            <li>❌ リセットしないと再度見られない</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="after-box">
+                    <span class="box-label">変更後</span>
+                    <div class="box-content">
+                        <ul>
+                            <li>✅ <strong>ウェブサイトを開くたびに毎回表示</strong></li>
+                            <li>✅ ページ再読み込みでも表示</li>
+                            <li>✅ 常に最新のアニメーション体験</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-box">
+                <div>変更コード:</div>
+                <div style="margin-top: 10px;">
+                    <span class="highlight-remove">const SHOW_ONLY_FIRST_VISIT = true;</span><br>
+                    <span class="highlight-add">const SHOW_ONLY_FIRST_VISIT = false;</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 変更2: カートボタンのリダイレクト -->
+        <div class="change-section">
+            <div class="change-title">
+                <span class="icon-large">🛒</span>
+                <span>カートに追加ボタン</span>
+                <span class="badge badge-new">新機能</span>
+            </div>
+            
+            <p class="change-description">
+                商品ページの「カートに追加」ボタンを押すと、指定のチェックアウトページに直接リダイレクトされます。
+            </p>
+            
+            <div class="comparison-box">
+                <div class="before-box">
+                    <span class="box-label">変更前</span>
+                    <div class="box-content">
+                        <ul>
+                            <li>❌ カートページに移動</li>
+                            <li>❌ Shopifyの標準フロー</li>
+                            <li>❌ 追加のステップが必要</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="after-box">
+                    <span class="box-label">変更後</span>
+                    <div class="box-content">
+                        <ul>
+                            <li>✅ <strong>指定URLに直接リダイレクト</strong></li>
+                            <li>✅ チェックアウト設定ページへ移動</li>
+                            <li>✅ カスタマイズされたフロー</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-box">
+                <div>追加コード:</div>
+                <div style="margin-top: 10px;">
+                    <span class="highlight-remove">type="submit"</span><br>
+                    <span class="highlight-add">type="button" onclick="redirectToCheckout()"</span>
+                    <br><br>
+                    <span class="highlight-add">
+                        &lt;script&gt;<br>
+                        function redirectToCheckout() {<br>
+                        &nbsp;&nbsp;window.location.href = 'チェックアウトURL';<br>
+                        }<br>
+                        &lt;/script&gt;
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 変更3: アニメーション速度 -->
+        <div class="change-section">
+            <div class="change-title">
+                <span class="icon-large">⚡</span>
+                <span>アニメーション速度最適化</span>
+                <span class="badge badge-updated">更新</span>
+            </div>
+            
+            <p class="change-description">
+                オープニングアニメーションの各ステージを2秒に短縮し、合計8秒で完結します。
+            </p>
+            
+            <div class="comparison-box">
+                <div class="before-box">
+                    <span class="box-label">変更前</span>
+                    <div class="box-content">
+                        <ul>
+                            <li>❌ 各ステージ3秒</li>
+                            <li>❌ 合計12秒</li>
+                            <li>❌ 少し長く感じる</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="after-box">
+                    <span class="box-label">変更後</span>
+                    <div class="box-content">
+                        <ul>
+                            <li>✅ <strong>各ステージ2秒</strong></li>
+                            <li>✅ <strong>合計8秒</strong></li>
+                            <li>✅ テンポの良い体験</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-box">
+                <div>変更コード:</div>
+                <div style="margin-top: 10px;">
+                    <span class="highlight-remove">const stageDuration = 3000; // 3秒</span><br>
+                    <span class="highlight-add">const stageDuration = 2000; // 2秒</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 変更されたファイル一覧 -->
+        <div class="file-list">
+            <h3 style="margin-bottom: 20px; color: #2D5F3F;">📂 変更されたファイル</h3>
+            
+            <div class="file-item">
+                <span class="file-icon">📄</span>
+                <div class="file-info">
+                    <div class="file-name">opening-animation.liquid</div>
+                    <div class="file-desc">オープニングアニメーションの設定変更（毎回表示 + 2秒速度）</div>
+                </div>
+            </div>
+            
+            <div class="file-item">
+                <span class="file-icon">📄</span>
+                <div class="file-info">
+                    <div class="file-name">product-info.liquid</div>
+                    <div class="file-desc">カートボタンのリダイレクト機能追加</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ダウンロードセクション -->
+        <div class="download-section">
+            <h2>📥 最新版をダウンロード</h2>
+            <p style="color: white; margin-bottom: 30px; font-size: 1.1rem;">
+                すべての変更が含まれた最新版のShopifyテーマをダウンロードできます
+            </p>
+            <a href="download.html" class="download-btn">
+                🎁 今すぐダウンロード
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Green Care Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Green Care",
+    "theme_documentation_url": "https://github.com/kouyan352/project",
+    "theme_support_url": "https://github.com/kouyan352/project"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "colors_primary",
+        "label": "Primary Color",
+        "default": "#2D5F3F"
+      },
+      {
+        "type": "color",
+        "id": "colors_secondary",
+        "label": "Secondary Color",
+        "default": "#4A7C59"
+      },
+      {
+        "type": "color",
+        "id": "colors_accent",
+        "label": "Accent Color",
+        "default": "#2ECC71"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "default": "assistant_n4",
+        "label": "t:settings_schema.typography.settings.type_header_font.label",
+        "info": "t:settings_schema.typography.settings.type_header_font.info"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "assistant_n4",
+        "label": "t:settings_schema.typography.settings.type_body_font.label",
+        "info": "t:settings_schema.typography.settings.type_body_font.info"
+      }
+    ]
+  }
+]

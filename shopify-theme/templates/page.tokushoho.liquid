@@ -1,0 +1,233 @@
+{% comment %}
+  特定商取引法に基づく表記ページ
+  Usage: このテンプレートは /pages/tokushoho で使用されます
+{% endcomment %}
+
+<div class="page-width page-content">
+  <header class="page-header">
+    <h1 class="page-title">{{ page.title }}</h1>
+  </header>
+
+  <div class="tokushoho-content rte">
+    {{ page.content }}
+
+    {% comment %}
+      以下は特定商取引法の必須項目のテンプレートです
+      Shopify管理画面の「ページ」で内容を編集してください
+    {% endcomment %}
+
+    {% if page.content == blank %}
+      <section class="tokushoho-section">
+        <h2>販売業者</h2>
+        <p>ジーファイブ</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>運営統括責任者</h2>
+        <p>長谷川亘輝</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>所在地</h2>
+        <p>〒930-0822 富山県富山市新屋149-5</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>電話番号</h2>
+        <p>080-4256-8852</p>
+        <p class="note">※お問い合わせはLINEまたはメールにてお願いいたします</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>メールアドレス</h2>
+        <p><a href="mailto:gfive200116@gmail.com">gfive200116@gmail.com</a></p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>販売URL</h2>
+        <p><a href="https://gfive200116.myshopify.com" target="_blank">https://gfive200116.myshopify.com</a></p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>お支払い方法</h2>
+        <ul>
+          <li>クレジットカード（VISA、MasterCard、American Express、JCB等）</li>
+          <li>Shopify ペイメント</li>
+        </ul>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>販売価格</h2>
+        <p>各商品ページ（プラン）に表示される価格（税込）</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>商品代金以外の必要料金</h2>
+        <p>配送料：販売価格に含まれております。（送料無料）</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>引き渡し時期</h2>
+        <p>ご注文（初回決済）確認後、5営業日以内に発送いたします。</p>
+        <p>2回目以降は、各プラン指定の配送サイクル（毎月または隔月）に基づき発送いたします。</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>商品の引渡方法</h2>
+        <p>配送（ヤマト運輸）</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>返品・交換について</h2>
+        
+        <h3>不良品・枯死の場合</h3>
+        <p>商品の特性上（生きた植物のため）、お客様都合による返品・交換・キャンセルは原則としてお受けできません。</p>
+        
+        <p>ただし、商品到着後2ヶ月以内に植物が枯死、または著しい品質不良が発生した場合（当社の「枯らさない保証」適用）、LINEにてご連絡ください。</p>
+        <p>専門家が状況を確認後、当社の基準に基づき、送料弊社負担にて代替品と交換いたします。</p>
+        <p class="note">（※お客様の明らかな過失（保証除外基準）に該当する場合は、保証対象外となります。詳細はマニュアルをご確認ください。）</p>
+
+        <h3>返品できない商品</h3>
+        <ul>
+          <li>お客様都合による返品</li>
+          <li>開封済み、使用済みの商品</li>
+          <li>お客様のもとで傷や汚れが生じた商品</li>
+        </ul>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>返品・交換の送付先</h2>
+        <p>〒930-0822 富山県富山市新屋149-5</p>
+        <p>ジーファイブ 返品係</p>
+        <p>TEL: 080-4256-8852</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>特別な販売条件</h2>
+        <p>サブスクリプション（定期購入）商品は、各プラン指定の配送サイクル（毎月または隔月）ごとに自動で商品をお届けし、決済は毎月行われます。</p>
+        <p>解約・休止をご希望の場合は、次回決済予定日の5日前までに、LINE公式アカウントまたはお問い合わせフォームよりご連絡ください。</p>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>動作環境</h2>
+        <p>本サービスは以下の環境でご利用いただけます。</p>
+        <ul>
+          <li>PC：Windows 10以降、macOS 10.15以降</li>
+          <li>スマートフォン：iOS 14以降、Android 10以降</li>
+          <li>ブラウザ：Chrome、Safari、Firefox、Edge（最新版）</li>
+        </ul>
+      </section>
+
+      <section class="tokushoho-section">
+        <h2>その他</h2>
+        <p>「スマホで解決。」サポート（SOS診断、水やりリマインダー）は、サブスクリプション契約者限定の特典です。</p>
+        <p>営業時間外のお問い合わせは、翌営業日以降の対応となります。</p>
+      </section>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+.page-width {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.page-content {
+  padding: 4rem 0;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  color: var(--primary-color, #2D5F3F);
+  margin: 0;
+}
+
+.tokushoho-content {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.tokushoho-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.tokushoho-section h2 {
+  font-size: 1.5rem;
+  color: var(--primary-color, #2D5F3F);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #E8F5E9;
+}
+
+.tokushoho-section h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.tokushoho-section p {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.tokushoho-section ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.tokushoho-section li {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.tokushoho-section .note {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.75rem;
+}
+
+.tokushoho-section a {
+  color: var(--primary-color, #2D5F3F);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(45, 95, 63, 0.3);
+  transition: all 0.3s ease;
+}
+
+.tokushoho-section a:hover {
+  border-bottom-color: var(--primary-color, #2D5F3F);
+}
+
+.rte {
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .tokushoho-section {
+    padding: 1.5rem;
+  }
+
+  .tokushoho-section h2 {
+    font-size: 1.25rem;
+  }
+}
+</style>

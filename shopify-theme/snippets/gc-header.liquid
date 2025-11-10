@@ -1,0 +1,163 @@
+{% comment %}
+  Green Care Header Snippet
+  Usage: {% render 'gc-header' %}
+{% endcomment %}
+
+<header class="gc-header">
+  <div class="container">
+    <nav class="gc-nav">
+      <div class="gc-logo">
+        <a href="/">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4C16 4 10 8 10 14C10 17.3137 12.6863 20 16 20C19.3137 20 22 17.3137 22 14C22 8 16 4 16 4Z" fill="#2D5F3F"/>
+            <path d="M16 20V28M12 28H20" stroke="#2D5F3F" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>{{ shop.name }}</span>
+        </a>
+      </div>
+      <ul class="gc-nav-menu">
+        <li><a href="#problems">お悩み</a></li>
+        <li><a href="#features">機能</a></li>
+        <li><a href="#plans">プラン</a></li>
+        <li><a href="https://lin.ee/8QakieO" class="gc-btn-primary" target="_blank">LINEで相談</a></li>
+      </ul>
+      <button class="gc-mobile-menu-toggle" aria-label="メニュー">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<style>
+.gc-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+}
+
+.gc-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gc-logo a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2D5F3F;
+}
+
+.gc-nav-menu {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.gc-nav-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.gc-nav-menu li a:hover {
+  color: #2D5F3F;
+}
+
+.gc-btn-primary {
+  background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 100%);
+  color: white !important;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gc-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(45, 95, 63, 0.3);
+}
+
+.gc-mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.gc-mobile-menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: #2D5F3F;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .gc-nav-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .gc-nav-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .gc-mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .gc-mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .gc-mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .gc-mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const toggle = document.querySelector('.gc-mobile-menu-toggle');
+  const menu = document.querySelector('.gc-nav-menu');
+  
+  if (toggle && menu) {
+    toggle.addEventListener('click', function() {
+      toggle.classList.toggle('active');
+      menu.classList.toggle('active');
+    });
+  }
+});
+</script>

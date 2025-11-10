@@ -1,0 +1,41 @@
+{% comment %}
+  Collection Header Section
+{% endcomment %}
+
+<div class="collection-header">
+  <div class="container">
+    <h1>{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="collection-description">
+        {{ collection.description }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+.collection-header {
+  padding: 4rem 0 2rem;
+  text-align: center;
+}
+
+.collection-header h1 {
+  font-size: 3rem;
+  color: var(--primary-color, #2D5F3F);
+  margin-bottom: 1rem;
+}
+
+.collection-description {
+  max-width: 600px;
+  margin: 0 auto;
+  color: #666;
+  line-height: 1.8;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Collection Header",
+  "settings": []
+}
+{% endschema %}
