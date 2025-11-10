@@ -1,0 +1,822 @@
+{% comment %}
+  Opening Animation Section
+  実写風・流れるようなムービー - 短縮版
+{% endcomment %}
+<div id="opening-animation" class="opening-animation">
+  <div class="animation-container">
+    <!-- 連続シーン：枯れた植物 → 人がスマホで相談 → 元気な植物 -->
+    <div class="cinematic-scene">
+      <!-- Scene 1: 枯れた植物（シンプルイラスト） -->
+      <div class="scene-layer scene-1">
+        <div class="plant-simple wilted">
+          <div class="pot"></div>
+          <div class="stem wilted"></div>
+          <div class="leaves">
+            <div class="leaf leaf-1 wilted"></div>
+            <div class="leaf leaf-2 wilted"></div>
+            <div class="leaf leaf-3 wilted"></div>
+          </div>
+        </div>
+        <div class="worry-text">元気がない...</div>
+      </div>
+
+      <!-- Scene 2: 人の手がスマホを操作 -->
+      <div class="scene-layer scene-2">
+        <div class="hand-phone-scene">
+          <!-- 人の手のシルエット -->
+          <div class="hand-silhouette">
+            <div class="hand-shape">
+              <div class="thumb"></div>
+              <div class="fingers">
+                <div class="finger finger-1"></div>
+                <div class="finger finger-2"></div>
+                <div class="finger finger-3"></div>
+                <div class="finger finger-4"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- スマホ画面 -->
+          <div class="phone-in-hand">
+            <div class="phone-body">
+              <div class="screen">
+                <div class="line-header">
+                  <div class="line-logo">LINE</div>
+                </div>
+                <div class="chat-content">
+                  <div class="message-bubble sent">葉が枯れてきました😢</div>
+                  <div class="message-bubble received">
+                    <div class="typing-dots">
+                      <span></span><span></span><span></span>
+                    </div>
+                  </div>
+                  <div class="message-bubble received expert">
+                    水やりを調整しましょう！💧<br>
+                    <small>専門家がサポート</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- タップエフェクト -->
+          <div class="tap-effect"></div>
+        </div>
+      </div>
+
+      <!-- Scene 3: 机の上の元気な植物（最終フレーム） -->
+      <div class="scene-layer scene-3">
+        <div class="final-scene">
+          <div class="desk-top"></div>
+          <div class="plant-simple healthy">
+            <div class="pot"></div>
+            <div class="stem healthy"></div>
+            <div class="leaves">
+              <div class="leaf leaf-1 healthy"></div>
+              <div class="leaf leaf-2 healthy"></div>
+              <div class="leaf leaf-3 healthy"></div>
+              <div class="leaf leaf-4 healthy"></div>
+              <div class="leaf leaf-5 healthy"></div>
+            </div>
+            <div class="sparkles">
+              <div class="sparkle">✨</div>
+              <div class="sparkle">✨</div>
+              <div class="sparkle">✨</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skip Button -->
+    <button class="skip-animation" onclick="skipAnimation()">
+      スキップ
+    </button>
+  </div>
+</div>
+
+<style>
+/* Cinematic Opening Animation - 実写風 */
+.opening-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #2a2a2a 0%, #1a1a1a 100%);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.opening-animation.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.animation-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Cinematic Scene Management */
+.cinematic-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.scene-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(1.1);
+  transition: opacity 1.2s ease-in-out, transform 1.5s ease-out;
+}
+
+.scene-layer.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Scene 1: Wilted Plant - シンプルイラスト */
+.scene-1 {
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.plant-simple {
+  position: relative;
+  width: 200px;
+  height: 300px;
+}
+
+.pot {
+  width: 100px;
+  height: 70px;
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+  border-radius: 0 0 18px 18px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.pot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 18px;
+  background: #a0522d;
+  border-radius: 10px;
+}
+
+.stem {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 120px;
+  background: #4a7c59;
+  border-radius: 3px;
+  transition: all 0.8s ease;
+}
+
+.stem.wilted {
+  background: #8b7355;
+  height: 80px;
+  transform: translateX(-50%) rotate(-15deg);
+}
+
+.stem.healthy {
+  background: #2ecc71;
+  height: 140px;
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+}
+
+.leaves {
+  position: absolute;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 150px;
+}
+
+.leaf {
+  position: absolute;
+  width: 45px;
+  height: 60px;
+  background: #4a7c59;
+  border-radius: 50% 0;
+  transition: all 0.8s ease;
+  transform-origin: bottom center;
+}
+
+.leaf.wilted {
+  background: #8b7355;
+  opacity: 0.7;
+}
+
+.leaf.healthy {
+  background: #2ecc71;
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+  animation: leafSway 3s ease-in-out infinite;
+}
+
+.leaf.leaf-1 {
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+.leaf.leaf-2 {
+  bottom: 45px;
+  left: 20%;
+  transform: rotate(-80deg);
+}
+
+.leaf.leaf-3 {
+  bottom: 45px;
+  right: 20%;
+  transform: rotate(10deg);
+}
+
+.leaf.leaf-4 {
+  bottom: 75px;
+  left: 30%;
+  transform: rotate(-65deg);
+}
+
+.leaf.leaf-5 {
+  bottom: 75px;
+  right: 30%;
+  transform: rotate(25deg);
+}
+
+.worry-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.sparkles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 2rem;
+  animation: sparkleFloat 2s ease-in-out infinite;
+}
+
+.sparkle:nth-child(1) {
+  top: 20%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.sparkle:nth-child(2) {
+  top: 30%;
+  right: 25%;
+  animation-delay: 0.3s;
+}
+
+.sparkle:nth-child(3) {
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.6s;
+}
+
+/* Scene 2: Hand with Phone - 実写風 */
+.scene-2 {
+  perspective: 1000px;
+}
+
+.hand-phone-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 人の手のシルエット */
+.hand-silhouette {
+  position: absolute;
+  bottom: -10%;
+  right: 30%;
+  width: 400px;
+  height: 500px;
+  transform: rotate(-15deg);
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+  animation: handAppear 0.8s ease-out;
+}
+
+.hand-shape {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.thumb {
+  position: absolute;
+  bottom: 150px;
+  left: 50px;
+  width: 80px;
+  height: 120px;
+  background: linear-gradient(135deg, #4a3929 0%, #3a2919 100%);
+  border-radius: 40px 40px 20px 40px;
+  transform: rotate(-30deg);
+  box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.fingers {
+  position: absolute;
+  bottom: 0;
+  left: 100px;
+  width: 200px;
+  height: 300px;
+}
+
+.finger {
+  position: absolute;
+  width: 50px;
+  background: linear-gradient(135deg, #5a4939 0%, #4a3929 100%);
+  border-radius: 25px 25px 15px 15px;
+  box-shadow: inset -3px -3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.finger-1 {
+  height: 200px;
+  bottom: 0;
+  left: 0;
+  transform: rotate(-5deg);
+}
+
+.finger-2 {
+  height: 220px;
+  bottom: 0;
+  left: 50px;
+}
+
+.finger-3 {
+  height: 210px;
+  bottom: 0;
+  left: 100px;
+  transform: rotate(5deg);
+}
+
+.finger-4 {
+  height: 180px;
+  bottom: 0;
+  left: 150px;
+  transform: rotate(10deg);
+}
+
+/* スマホ */
+.phone-in-hand {
+  position: relative;
+  z-index: 10;
+  animation: phoneSlideIn 0.8s ease-out;
+}
+
+.phone-body {
+  width: 320px;
+  height: 600px;
+  background: #0a0a0a;
+  border-radius: 40px;
+  padding: 15px;
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.8),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 30px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.line-header {
+  background: #06c755;
+  padding: 1.5rem 1rem 1rem;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.line-logo {
+  letter-spacing: 0.1em;
+}
+
+.chat-content {
+  flex: 1;
+  padding: 2rem 1rem;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.message-bubble {
+  padding: 1rem 1.5rem;
+  border-radius: 18px;
+  max-width: 75%;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: messagePop 0.4s ease-out backwards;
+}
+
+.message-bubble.sent {
+  background: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  animation-delay: 0.3s;
+}
+
+.message-bubble.received {
+  background: white;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  animation-delay: 0.8s;
+}
+
+.message-bubble.expert {
+  background: #06c755;
+  color: white;
+  animation-delay: 1.5s;
+}
+
+.message-bubble small {
+  opacity: 0.9;
+  font-size: 0.85rem;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  padding: 0.5rem;
+}
+
+.typing-dots span {
+  width: 8px;
+  height: 8px;
+  background: #999;
+  border-radius: 50%;
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* タップエフェクト */
+.tap-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(6, 199, 85, 0.6);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: tapPulse 2s ease-out 1s infinite;
+}
+
+/* Scene 3: Final - Healthy Plant on Desk */
+.scene-3 {
+  flex-direction: column;
+}
+
+.final-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.desk-top {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 25%;
+  background: linear-gradient(180deg, #d4a574 0%, #b8956a 100%);
+  box-shadow: 
+    inset 0 10px 20px rgba(255, 255, 255, 0.1),
+    inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Skip Button - ミニマル */
+.skip-animation {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 10001;
+  letter-spacing: 0.05em;
+}
+
+.skip-animation:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Animations */
+@keyframes leafSway {
+  0%, 100% {
+    transform: translateY(0) rotate(var(--rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-5px) rotate(calc(var(--rotation, 0deg) + 3deg));
+  }
+}
+
+@keyframes sparkleFloat {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.2);
+  }
+}
+
+@keyframes handAppear {
+  0% {
+    opacity: 0;
+    transform: rotate(-15deg) translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-15deg) translateX(0);
+  }
+}
+
+@keyframes phoneSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes messagePop {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+@keyframes tapPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .plant-simple {
+    width: 150px;
+    height: 230px;
+  }
+  
+  .hand-silhouette {
+    width: 300px;
+    height: 400px;
+    right: 20%;
+  }
+  
+  .phone-body {
+    width: 260px;
+    height: 500px;
+  }
+  
+  .worry-text {
+    font-size: 1.2rem;
+  }
+  
+  .skip-animation {
+    bottom: 2rem;
+    right: 2rem;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+  }
+}
+</style>
+
+<script>
+(function() {
+  // ===== ホームページ以外では非表示（theme.liquidで制御） =====
+  const animation = document.getElementById('opening-animation');
+  if (!animation) return;
+  
+  // ===== 初回訪問チェック機能 =====
+  // localStorage を使用して訪問履歴を記録
+  const ANIMATION_VIEWED_KEY = 'greencare_opening_animation_viewed';
+  const SHOW_ONLY_FIRST_VISIT = {{ section.settings.show_only_first_visit | default: false | json }};
+  
+  function hasViewedAnimation() {
+    return localStorage.getItem(ANIMATION_VIEWED_KEY) === 'true';
+  }
+  
+  function markAnimationAsViewed() {
+    localStorage.setItem(ANIMATION_VIEWED_KEY, 'true');
+  }
+  
+  // 初回訪問時のみ表示がオンで、既に視聴済みの場合
+  if (SHOW_ONLY_FIRST_VISIT && hasViewedAnimation()) {
+    const animation = document.getElementById('opening-animation');
+    if (animation) {
+      animation.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+    return; // スクリプトを終了
+  }
+  
+  // ===== シネマティックアニメーション実行 =====
+  const scenes = document.querySelectorAll('.scene-layer');
+  const totalDuration = 6500; // 合計6.5秒
+  
+  function startAnimation() {
+    // ページをスクロール不可に
+    document.body.style.overflow = 'hidden';
+    
+    // Scene 1: 枯れた植物 (0s-1.5s)
+    setTimeout(() => {
+      scenes[0].classList.add('active');
+    }, 0);
+    
+    // Scene 2: スマホ画面 (1.5s-3.5s)
+    setTimeout(() => {
+      scenes[0].classList.remove('active');
+      scenes[1].classList.add('active');
+    }, 1500);
+    
+    // Scene 3: 元気な植物 (3.5s-6.5s)
+    setTimeout(() => {
+      scenes[1].classList.remove('active');
+      scenes[2].classList.add('active');
+    }, 3500);
+    
+    // アニメーション終了
+    setTimeout(() => {
+      endAnimation();
+    }, totalDuration);
+  }
+
+  function endAnimation() {
+    const animation = document.getElementById('opening-animation');
+    animation.classList.add('fade-out');
+    
+    // 初回のみ表示がオンの場合のみ、視聴済みとしてマーク
+    if (SHOW_ONLY_FIRST_VISIT) {
+      markAnimationAsViewed();
+    }
+    
+    setTimeout(() => {
+      animation.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }, 1000);
+  }
+
+  // スキップ機能
+  window.skipAnimation = function() {
+    endAnimation();
+  };
+
+  // Escapeキーでスキップ
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      window.skipAnimation();
+    }
+  });
+
+  // ページロード時にアニメーション開始
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startAnimation);
+  } else {
+    startAnimation();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Opening Animation",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_animation",
+      "label": "オープニングアニメーションを有効化",
+      "default": true,
+      "info": "アニメーションの表示/非表示を切り替えます"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_only_first_visit",
+      "label": "初回訪問時のみ表示",
+      "default": false,
+      "info": "オンにすると、ユーザーの初回訪問時のみアニメーションを表示します。オフにすると毎回表示されます。"
+    },
+    {
+      "type": "range",
+      "id": "stage_duration",
+      "label": "各ステージの表示時間（秒）",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 2,
+      "info": "各ステージの表示時間を設定します"
+    },
+    {
+      "type": "header",
+      "content": "リセット方法"
+    },
+    {
+      "type": "paragraph",
+      "content": "アニメーションを再度表示するには、ブラウザの開発者ツールでlocalStorageから'greencare_opening_animation_viewed'を削除してください。"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Opening Animation"
+    }
+  ]
+}
+{% endschema %}
