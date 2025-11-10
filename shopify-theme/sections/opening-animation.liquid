@@ -1,10 +1,11 @@
 {% comment %}
   Opening Animation Section
   実写風・流れるようなムービー - 短縮版
+  枯れた植物 → スマホで相談 → 机の上の元気な小鉢植物
 {% endcomment %}
 <div id="opening-animation" class="opening-animation">
   <div class="animation-container">
-    <!-- 連続シーン：枯れた植物 → 人がスマホで相談 → 元気な植物 -->
+    <!-- 連続シーン：枯れた植物 → 人がスマホで相談 → 机の上の元気な植物 -->
     <div class="cinematic-scene">
       <!-- Scene 1: 枯れた植物（シンプルイラスト） -->
       <div class="scene-layer scene-1">
@@ -64,25 +65,35 @@
         </div>
       </div>
 
-      <!-- Scene 3: 机の上の元気な植物（最終フレーム） -->
+      <!-- Scene 3: 机の上の元気な小さな観葉植物（最終シーン） -->
       <div class="scene-layer scene-3">
         <div class="final-scene">
-          <div class="desk-top"></div>
-          <div class="plant-simple healthy">
-            <div class="pot"></div>
-            <div class="stem healthy"></div>
-            <div class="leaves">
-              <div class="leaf leaf-1 healthy"></div>
-              <div class="leaf leaf-2 healthy"></div>
-              <div class="leaf leaf-3 healthy"></div>
-              <div class="leaf leaf-4 healthy"></div>
-              <div class="leaf leaf-5 healthy"></div>
+          <!-- エレガントな木製の机 -->
+          <div class="elegant-desk">
+            <div class="desk-surface"></div>
+            <div class="desk-shadow"></div>
+          </div>
+          
+          <!-- 机の上の小さな観葉植物（小鉢） -->
+          <div class="small-plant-on-desk">
+            <div class="small-pot"></div>
+            <div class="small-stem"></div>
+            <div class="small-leaves">
+              <div class="small-leaf small-leaf-1"></div>
+              <div class="small-leaf small-leaf-2"></div>
+              <div class="small-leaf small-leaf-3"></div>
+              <div class="small-leaf small-leaf-4"></div>
+              <div class="small-leaf small-leaf-5"></div>
             </div>
-            <div class="sparkles">
-              <div class="sparkle">✨</div>
-              <div class="sparkle">✨</div>
-              <div class="sparkle">✨</div>
-            </div>
+            <!-- 元気の輝き -->
+            <div class="glow-effect"></div>
+          </div>
+          
+          <!-- キラキラエフェクト -->
+          <div class="sparkles">
+            <div class="sparkle">✨</div>
+            <div class="sparkle">✨</div>
+            <div class="sparkle">✨</div>
           </div>
         </div>
       </div>
@@ -204,12 +215,6 @@
   transform: translateX(-50%) rotate(-15deg);
 }
 
-.stem.healthy {
-  background: #2ecc71;
-  height: 140px;
-  box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
-}
-
 .leaves {
   position: absolute;
   bottom: 150px;
@@ -234,12 +239,6 @@
   opacity: 0.7;
 }
 
-.leaf.healthy {
-  background: #2ecc71;
-  box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
-  animation: leafSway 3s ease-in-out infinite;
-}
-
 .leaf.leaf-1 {
   bottom: 60px;
   left: 50%;
@@ -258,56 +257,12 @@
   transform: rotate(10deg);
 }
 
-.leaf.leaf-4 {
-  bottom: 75px;
-  left: 30%;
-  transform: rotate(-65deg);
-}
-
-.leaf.leaf-5 {
-  bottom: 75px;
-  right: 30%;
-  transform: rotate(25deg);
-}
-
 .worry-text {
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.5rem;
   font-weight: 500;
   text-align: center;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.sparkles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.sparkle {
-  position: absolute;
-  font-size: 2rem;
-  animation: sparkleFloat 2s ease-in-out infinite;
-}
-
-.sparkle:nth-child(1) {
-  top: 20%;
-  left: 20%;
-  animation-delay: 0s;
-}
-
-.sparkle:nth-child(2) {
-  top: 30%;
-  right: 25%;
-  animation-delay: 0.3s;
-}
-
-.sparkle:nth-child(3) {
-  top: 50%;
-  left: 50%;
-  animation-delay: 0.6s;
 }
 
 /* Scene 2: Hand with Phone - 実写風 */
@@ -519,7 +474,7 @@
   animation: tapPulse 2s ease-out 1s infinite;
 }
 
-/* Scene 3: Final - Healthy Plant on Desk */
+/* Scene 3: 机の上の小さな観葉植物 */
 .scene-3 {
   flex-direction: column;
 }
@@ -533,15 +488,243 @@
   justify-content: center;
 }
 
-.desk-top {
+/* エレガントな木製の机 */
+.elegant-desk {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 25%;
-  background: linear-gradient(180deg, #d4a574 0%, #b8956a 100%);
+  height: 30%;
+  perspective: 1000px;
+}
+
+.desk-surface {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, 
+    #d4a574 0%, 
+    #c89968 50%, 
+    #b8956a 100%);
   box-shadow: 
-    inset 0 10px 20px rgba(255, 255, 255, 0.1),
-    inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+    inset 0 15px 30px rgba(255, 255, 255, 0.15),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.25),
+    0 -5px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.desk-surface::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 100%);
+}
+
+.desk-shadow {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 20px;
+  background: radial-gradient(ellipse at center, 
+    rgba(0, 0, 0, 0.3) 0%, 
+    transparent 70%);
+  filter: blur(8px);
+}
+
+/* 机の上の小さな観葉植物 */
+.small-plant-on-desk {
+  position: relative;
+  width: 120px;
+  height: 180px;
+  margin-bottom: 30%;
+  animation: plantAppear 1s ease-out;
+}
+
+/* 小鉢 */
+.small-pot {
+  width: 70px;
+  height: 50px;
+  background: linear-gradient(135deg, 
+    #8b4513 0%, 
+    #a0522d 50%, 
+    #8b4513 100%);
+  border-radius: 0 0 15px 15px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.small-pot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75px;
+  height: 12px;
+  background: linear-gradient(135deg, 
+    #a0522d 0%, 
+    #c46d3a 50%, 
+    #a0522d 100%);
+  border-radius: 8px;
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* 小さな茎 */
+.small-stem {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 70px;
+  background: linear-gradient(to top, 
+    #2d5f3f 0%, 
+    #2ecc71 100%);
+  border-radius: 3px;
+  box-shadow: 
+    0 0 10px rgba(46, 204, 113, 0.4),
+    inset 1px 0 2px rgba(255, 255, 255, 0.3),
+    inset -1px 0 2px rgba(0, 0, 0, 0.2);
+  animation: stemGrow 0.8s ease-out 0.3s backwards;
+}
+
+/* 小さな葉っぱ */
+.small-leaves {
+  position: absolute;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 90px;
+}
+
+.small-leaf {
+  position: absolute;
+  width: 32px;
+  height: 45px;
+  background: linear-gradient(135deg, 
+    #2ecc71 0%, 
+    #27ae60 100%);
+  border-radius: 50% 0;
+  transform-origin: bottom center;
+  box-shadow: 
+    0 0 15px rgba(46, 204, 113, 0.5),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.3),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.2);
+  animation: leafGrow 0.6s ease-out backwards, leafSway 3s ease-in-out infinite;
+}
+
+.small-leaf::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translateY(-50%) rotate(-30deg);
+}
+
+.small-leaf-1 {
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+  animation-delay: 0.4s, 0s;
+}
+
+.small-leaf-2 {
+  bottom: 30px;
+  left: 20%;
+  transform: rotate(-75deg);
+  animation-delay: 0.5s, 0.2s;
+}
+
+.small-leaf-3 {
+  bottom: 30px;
+  right: 20%;
+  transform: rotate(15deg);
+  animation-delay: 0.6s, 0.4s;
+}
+
+.small-leaf-4 {
+  bottom: 50px;
+  left: 25%;
+  transform: rotate(-60deg);
+  animation-delay: 0.7s, 0.6s;
+}
+
+.small-leaf-5 {
+  bottom: 50px;
+  right: 25%;
+  transform: rotate(30deg);
+  animation-delay: 0.8s, 0.8s;
+}
+
+/* 元気の輝き */
+.glow-effect {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, 
+    rgba(46, 204, 113, 0.3) 0%, 
+    transparent 70%);
+  border-radius: 50%;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* キラキラエフェクト */
+.sparkles {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 2rem;
+  animation: sparkleFloat 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
+.sparkle:nth-child(1) {
+  top: 20%;
+  left: 25%;
+  animation-delay: 0s;
+}
+
+.sparkle:nth-child(2) {
+  top: 30%;
+  right: 20%;
+  animation-delay: 0.4s;
+  font-size: 2.5rem;
+}
+
+.sparkle:nth-child(3) {
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.8s;
+  font-size: 1.8rem;
 }
 
 /* Skip Button - ミニマル */
@@ -576,7 +759,7 @@
     transform: translateY(0) rotate(var(--rotation, 0deg));
   }
   50% {
-    transform: translateY(-5px) rotate(calc(var(--rotation, 0deg) + 3deg));
+    transform: translateY(-3px) rotate(calc(var(--rotation, 0deg) + 3deg));
   }
 }
 
@@ -587,7 +770,7 @@
   }
   50% {
     opacity: 1;
-    transform: translateY(-10px) scale(1.2);
+    transform: translateY(-15px) scale(1.2);
   }
 }
 
@@ -649,6 +832,48 @@
   }
 }
 
+@keyframes plantAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes stemGrow {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 70px;
+  }
+}
+
+@keyframes leafGrow {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(var(--rotation, 0deg));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(var(--rotation, 0deg));
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .plant-simple {
@@ -669,6 +894,20 @@
   
   .worry-text {
     font-size: 1.2rem;
+  }
+  
+  .small-plant-on-desk {
+    width: 90px;
+    height: 140px;
+  }
+  
+  .small-pot {
+    width: 55px;
+    height: 40px;
+  }
+  
+  .small-stem {
+    height: 55px;
   }
   
   .skip-animation {
@@ -728,7 +967,7 @@
       scenes[1].classList.add('active');
     }, 1500);
     
-    // Scene 3: 元気な植物 (3.5s-6.5s)
+    // Scene 3: 机の上の元気な植物 (3.5s-6.5s)
     setTimeout(() => {
       scenes[1].classList.remove('active');
       scenes[2].classList.add('active');
