@@ -1,0 +1,44 @@
+{% comment %}
+  Announcement Bar (optional)
+{% endcomment %}
+
+{% if section.settings.show_announcement %}
+<div class="announcement-bar">
+  <div class="container">
+    <p class="announcement-text">{{ section.settings.text }}</p>
+  </div>
+</div>
+
+<style>
+.announcement-bar {
+  background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 100%);
+  color: white;
+  padding: 0.75rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.announcement-text {
+  margin: 0;
+}
+</style>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement text",
+      "default": "🌱 新規登録で初回相談無料！"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,126 @@
+{% comment %}
+  Hero Section for ジーファイブ Landing Page
+{% endcomment %}
+
+<section class="hero" id="hero">
+  <div class="hero-background">
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="title-small">{{ section.settings.subtitle | default: "水やりもSOSも、" }}</span>
+        <span class="title-large">{{ section.settings.title | default: "すべてスマホで。" }}</span>
+      </h1>
+      <p class="hero-description">
+        {{ section.settings.description | default: "観葉植物のお悩み、もう一人で抱えない。<br>LINEで専門家に相談できる、新しい植物ライフ。" }}
+      </p>
+      <div class="hero-cta">
+        <a href="{{ section.settings.line_url | default: 'https://lin.ee/8QakieO' }}" class="btn btn-large btn-primary" target="_blank">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17.5 13.5C17.5 13.78 17.28 14 17 14H13V18C13 18.28 12.78 18.5 12.5 18.5H11.5C11.22 18.5 11 18.28 11 18V14H7C6.72 14 6.5 13.78 6.5 13.5V12.5C6.5 12.22 6.72 12 7 12H11V8C11 7.72 11.22 7.5 11.5 7.5H12.5C12.78 7.5 13 7.72 13 8V12H17C17.28 12 17.5 12.22 17.5 12.5V13.5Z" fill="currentColor"/>
+          </svg>
+          {{ section.settings.cta_text | default: "LINEで無料相談を始める" }}
+        </a>
+        <a href="#features" class="btn btn-large btn-secondary">詳しく見る</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number" data-count="{{ section.settings.stat1_number | default: 24 }}">0</div>
+          <div class="stat-label">{{ section.settings.stat1_label | default: "以内に回答" }}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="{{ section.settings.stat2_number | default: 10000 }}">0</div>
+          <div class="stat-label">{{ section.settings.stat2_label | default: "相談実績" }}</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="{{ section.settings.stat3_number | default: 98 }}">0</div>
+          <div class="stat-label">{{ section.settings.stat3_label | default: "満足度" }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ジーファイブ Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "サブタイトル",
+      "default": "水やりもSOSも、"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "メインタイトル",
+      "default": "すべてスマホで。"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "説明文",
+      "default": "観葉植物のお悩み、もう一人で抱えない。<br>LINEで専門家に相談できる、新しい植物ライフ。"
+    },
+    {
+      "type": "url",
+      "id": "line_url",
+      "label": "LINE友だち追加URL",
+      "default": "https://lin.ee/8QakieO"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTAボタンテキスト",
+      "default": "LINEで無料相談を始める"
+    },
+    {
+      "type": "number",
+      "id": "stat1_number",
+      "label": "統計1: 数値",
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "統計1: ラベル",
+      "default": "以内に回答"
+    },
+    {
+      "type": "number",
+      "id": "stat2_number",
+      "label": "統計2: 数値",
+      "default": 10000
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "統計2: ラベル",
+      "default": "相談実績"
+    },
+    {
+      "type": "number",
+      "id": "stat3_number",
+      "label": "統計3: 数値",
+      "default": 98
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "統計3: ラベル",
+      "default": "満足度"
+    }
+  ],
+  "presets": [
+    {
+      "name": "ジーファイブ Hero"
+    }
+  ]
+}
+{% endschema %}

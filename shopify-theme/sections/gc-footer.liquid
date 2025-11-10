@@ -1,0 +1,136 @@
+{% comment %}
+  Footer Section
+{% endcomment %}
+
+<footer class="gc-footer-section">
+  <div class="container">
+    <div class="gc-footer-content">
+      <div class="gc-footer-col">
+        <h3 class="gc-footer-title">{{ shop.name }}</h3>
+        <p class="gc-footer-description">観葉植物のお悩みをLINEで解決。専門家による24時間以内の回答をお約束します。</p>
+      </div>
+      <div class="gc-footer-col">
+        <h4 class="gc-footer-heading">サービス</h4>
+        <ul class="gc-footer-links">
+          <li><a href="#problems">よくある悩み</a></li>
+          <li><a href="#features">機能</a></li>
+          <li><a href="#plans">料金プラン</a></li>
+        </ul>
+      </div>
+      <div class="gc-footer-col">
+        <h4 class="gc-footer-heading">会社情報</h4>
+        <ul class="gc-footer-links">
+          <li><a href="/pages/about">運営会社</a></li>
+          {% if shop.terms_of_service.url %}
+            <li><a href="{{ shop.terms_of_service.url }}">利用規約</a></li>
+          {% endif %}
+          {% if shop.privacy_policy.url %}
+            <li><a href="{{ shop.privacy_policy.url }}">プライバシーポリシー</a></li>
+          {% endif %}
+          <li><a href="/pages/tokushoho">特定商取引法に基づく表記</a></li>
+          {% if shop.refund_policy.url %}
+            <li><a href="{{ shop.refund_policy.url }}">返金ポリシー</a></li>
+          {% endif %}
+          {% if shop.shipping_policy.url %}
+            <li><a href="{{ shop.shipping_policy.url }}">配送ポリシー</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    <div class="gc-footer-bottom">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+.gc-footer-section {
+  background: linear-gradient(135deg, #2D5F3F 0%, #1A3A2A 100%);
+  color: #ffffff;
+  padding: 4rem 0 2rem;
+  margin-top: 4rem;
+}
+
+.gc-footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.gc-footer-col h3,
+.gc-footer-col h4 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.gc-footer-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.gc-footer-heading {
+  font-size: 1.1rem;
+}
+
+.gc-footer-description {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  max-width: 400px;
+}
+
+.gc-footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gc-footer-links li {
+  margin-bottom: 0.75rem;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.gc-footer-links a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+
+.gc-footer-links a:hover {
+  color: #ffffff;
+}
+
+.gc-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.gc-footer-bottom p {
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .gc-footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .gc-footer-section {
+    padding: 3rem 0 1.5rem;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": []
+}
+{% endschema %}

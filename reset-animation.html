@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オープニングアニメーション リセット</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+            background: linear-gradient(135deg, #2D5F3F 0%, #2ECC71 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: #2D5F3F;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .status {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .status.viewed {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.not-viewed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #2D5F3F 0%, #2ECC71 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(45, 95, 63, 0.3);
+            margin: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(45, 95, 63, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .secondary-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .info {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            text-align: left;
+        }
+        
+        .info h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .info p {
+            color: #666;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 オープニングアニメーション設定</h1>
+        <p class="description">ジーファイブのオープニングアニメーションの表示状態を管理できます</p>
+        
+        <div id="successMessage" class="success-message">
+            ✅ リセットしました！ページを再読み込みするとアニメーションが再生されます。
+        </div>
+        
+        <div id="status" class="status">
+            ステータスを確認中...
+        </div>
+        
+        <div>
+            <button onclick="resetAnimation()">🔄 アニメーションをリセット</button>
+            <button class="secondary-btn" onclick="checkStatus()">📊 状態を確認</button>
+        </div>
+        
+        <div class="info">
+            <h3>💡 説明</h3>
+            <p><strong>「アニメーションをリセット」をクリックすると：</strong></p>
+            <p>• ブラウザの記憶をクリアします</p>
+            <p>• 次回訪問時にアニメーションが再生されます</p>
+            <p>• テスト用に何度でもリセット可能です</p>
+            <br>
+            <p><strong>通常の動作：</strong></p>
+            <p>• 初回訪問時のみアニメーションを表示</p>
+            <p>• 2回目以降は表示されません</p>
+            <p>• ユーザー体験を最適化しています</p>
+        </div>
+    </div>
+    
+    <script>
+        const ANIMATION_VIEWED_KEY = 'greencare_opening_animation_viewed';
+        
+        function checkStatus() {
+            const hasViewed = localStorage.getItem(ANIMATION_VIEWED_KEY) === 'true';
+            const statusEl = document.getElementById('status');
+            
+            if (hasViewed) {
+                statusEl.className = 'status viewed';
+                statusEl.innerHTML = '⚠️ 既に視聴済み - アニメーションは表示されません';
+            } else {
+                statusEl.className = 'status not-viewed';
+                statusEl.innerHTML = '✅ 未視聴 - 次回アニメーションが表示されます';
+            }
+        }
+        
+        function resetAnimation() {
+            localStorage.removeItem(ANIMATION_VIEWED_KEY);
+            
+            // 成功メッセージを表示
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+            
+            // ステータスを更新
+            checkStatus();
+            
+            // 3秒後にメッセージを非表示
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 3000);
+        }
+        
+        // ページ読み込み時にステータスを確認
+        window.addEventListener('DOMContentLoaded', checkStatus);
+    </script>
+</body>
+</html>

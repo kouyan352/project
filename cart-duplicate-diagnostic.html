@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カート重複診断ツール</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      color: #2D5F3F;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+    
+    .instruction {
+      background: #e3f2fd;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      border-left: 4px solid #2196f3;
+    }
+    
+    .instruction h3 {
+      margin-top: 0;
+      color: #1976d2;
+    }
+    
+    .instruction ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+    
+    .instruction li {
+      margin-bottom: 10px;
+    }
+    
+    .code-block {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    
+    .warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .warning strong {
+      color: #856404;
+    }
+    
+    .result-section {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+    
+    .result-section h3 {
+      color: #2D5F3F;
+      margin-top: 0;
+    }
+    
+    button {
+      background: #2D5F3F;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    
+    button:hover {
+      background: #1f4229;
+    }
+    
+    .copy-btn {
+      background: #2196f3;
+      font-size: 14px;
+      padding: 8px 16px;
+      margin-top: 10px;
+    }
+    
+    .copy-btn:hover {
+      background: #1976d2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 カート重複診断ツール</h1>
+    <p class="subtitle">カートが2つ表示される問題を診断します</p>
+    
+    <div class="warning">
+      <strong>⚠️ 重要:</strong> このツールはShopifyのカートページで実行する必要があります
+    </div>
+    
+    <div class="instruction">
+      <h3>📋 実行手順</h3>
+      <ol>
+        <li>Shopifyストアの<strong>カートページ</strong>を開く (例: yourstore.myshopify.com/cart)</li>
+        <li>ブラウザの<strong>開発者ツール</strong>を開く (F12キーまたは右クリック→「検証」)</li>
+        <li><strong>Console</strong>タブをクリック</li>
+        <li>下記のコードをコピーして、コンソールに貼り付けて実行</li>
+        <li>結果をスクリーンショットして共有してください</li>
+      </ol>
+    </div>
+    
+    <h3>🔧 診断コード</h3>
+    <div class="code-block" id="diagnostic-code">console.log('=== カート重複診断 ===');
+console.log('');
+
+// 1. cart-section クラスを持つ要素の数を確認
+const cartSections = document.querySelectorAll('.cart-section');
+console.log('1. cart-section要素の数:', cartSections.length);
+cartSections.forEach((section, index) => {
+  console.log(`   - cart-section #${index + 1}:`, section);
+  console.log('     親要素:', section.parentElement);
+  console.log('     HTMLの最初の100文字:', section.innerHTML.substring(0, 100));
+});
+console.log('');
+
+// 2. cart-title クラスを持つ要素の数を確認
+const cartTitles = document.querySelectorAll('.cart-title');
+console.log('2. cart-title要素の数:', cartTitles.length);
+cartTitles.forEach((title, index) => {
+  console.log(`   - cart-title #${index + 1}:`, title.textContent);
+  console.log('     親要素:', title.parentElement.className);
+});
+console.log('');
+
+// 3. cart-item クラスを持つ要素の数を確認
+const cartItems = document.querySelectorAll('.cart-item');
+console.log('3. cart-item要素の数:', cartItems.length);
+console.log('');
+
+// 4. cart-form の数を確認
+const cartForms = document.querySelectorAll('#cart-form');
+console.log('4. cart-form要素の数:', cartForms.length);
+cartForms.forEach((form, index) => {
+  console.log(`   - cart-form #${index + 1}:`, form);
+});
+console.log('');
+
+// 5. ページ全体のHTML構造を確認
+const mainContent = document.getElementById('MainContent');
+if (mainContent) {
+  console.log('5. MainContent内の構造:');
+  console.log('   子要素の数:', mainContent.children.length);
+  Array.from(mainContent.children).forEach((child, index) => {
+    console.log(`   - 子要素 #${index + 1}:`, child.className || child.tagName);
+  });
+} else {
+  console.log('5. MainContent要素が見つかりません');
+}
+console.log('');
+
+// 6. section タグの数を確認
+const sectionTags = document.querySelectorAll('section');
+console.log('6. section タグの数:', sectionTags.length);
+console.log('');
+
+// 7. カート関連のすべてのコンテナを確認
+const cartContainers = document.querySelectorAll('[class*="cart"]');
+console.log('7. "cart"を含むクラスを持つ要素の数:', cartContainers.length);
+const uniqueClasses = new Set();
+cartContainers.forEach(el => {
+  if (el.className) {
+    el.className.split(' ').forEach(cls => {
+      if (cls.includes('cart')) {
+        uniqueClasses.add(cls);
+      }
+    });
+  }
+});
+console.log('   ユニークなcart関連クラス:', Array.from(uniqueClasses));
+console.log('');
+
+// 8. 視覚的に表示されているカートセクションの数
+const visibleCartSections = Array.from(cartSections).filter(section => {
+  const rect = section.getBoundingClientRect();
+  const style = window.getComputedStyle(section);
+  return rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+});
+console.log('8. 視覚的に表示されているcart-sectionの数:', visibleCartSections.length);
+visibleCartSections.forEach((section, index) => {
+  const rect = section.getBoundingClientRect();
+  console.log(`   - cart-section #${index + 1} 位置:`, {
+    top: rect.top,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height
+  });
+});
+console.log('');
+
+console.log('=== 診断完了 ===');
+console.log('この結果をスクリーンショットして共有してください');
+</div>
+    
+    <button class="copy-btn" onclick="copyCode()">📋 コードをコピー</button>
+    
+    <div class="result-section">
+      <h3>📊 期待される結果</h3>
+      <p><strong>正常な場合:</strong></p>
+      <ul>
+        <li>cart-section要素の数: <strong>1</strong></li>
+        <li>cart-title要素の数: <strong>1</strong></li>
+        <li>cart-form要素の数: <strong>1</strong></li>
+        <li>視覚的に表示されているcart-sectionの数: <strong>1</strong></li>
+      </ul>
+      
+      <p><strong>問題がある場合:</strong></p>
+      <ul>
+        <li>上記のいずれかが <strong>2以上</strong> の場合、重複が発生しています</li>
+        <li>結果をスクリーンショットして共有してください</li>
+      </ul>
+    </div>
+    
+    <div class="instruction" style="margin-top: 30px; background: #f3e5f5; border-left-color: #9c27b0;">
+      <h3 style="color: #7b1fa2;">🔍 追加チェック: Shopifyテーマエディタでの確認</h3>
+      <ol>
+        <li><strong>Shopify管理画面</strong> → <strong>オンラインストア</strong> → <strong>テーマ</strong></li>
+        <li><strong>カスタマイズ</strong>をクリック</li>
+        <li>上部のページ選択で<strong>「カート」</strong>を選択</li>
+        <li>左サイドバーで<strong>セクション</strong>を確認</li>
+        <li><strong>「Cart Section」が2つ以上追加されていないか</strong>確認</li>
+        <li>もし2つある場合は、1つを削除してください</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    function copyCode() {
+      const codeBlock = document.getElementById('diagnostic-code');
+      const textArea = document.createElement('textarea');
+      textArea.value = codeBlock.textContent;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      const btn = event.target;
+      const originalText = btn.textContent;
+      btn.textContent = '✓ コピーしました！';
+      setTimeout(() => {
+        btn.textContent = originalText;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

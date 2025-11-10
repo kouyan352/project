@@ -1,0 +1,44 @@
+{% comment %}
+  Header Section
+{% endcomment %}
+
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <div class="logo">
+        <a href="/">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4C16 4 10 8 10 14C10 17.3137 12.6863 20 16 20C19.3137 20 22 17.3137 22 14C22 8 16 4 16 4Z" fill="#2D5F3F"/>
+            <path d="M16 20V28M12 28H20" stroke="#2D5F3F" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>{{ shop.name }}</span>
+        </a>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#problems">お悩み</a></li>
+        <li><a href="#features">機能</a></li>
+        <li><a href="#plans">プラン</a></li>
+        <li><a href="{{ section.settings.line_url }}" class="btn-primary" target="_blank">LINEで相談</a></li>
+      </ul>
+      <button class="mobile-menu-toggle" aria-label="メニュー">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "url",
+      "id": "line_url",
+      "label": "LINE URL",
+      "default": "https://lin.ee/8QakieO"
+    }
+  ]
+}
+{% endschema %}

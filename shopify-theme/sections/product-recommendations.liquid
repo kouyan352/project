@@ -1,0 +1,96 @@
+{% comment %}
+  Product Recommendations Section
+  おすすめ商品セクション
+{% endcomment %}
+
+<div class="product-recommendations">
+  <div class="container">
+    <h2 class="section-title">おすすめ商品</h2>
+    
+    <div class="recommendations-grid">
+      {% if recommendations.products_count > 0 %}
+        {% for product in recommendations.products limit: 4 %}
+          <div class="recommendation-card">
+            <a href="{{ product.url }}">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | img_url: '400x400' }}" 
+                     alt="{{ product.featured_image.alt | escape }}"
+                     loading="lazy">
+              {% endif %}
+              <h3>{{ product.title }}</h3>
+              <p class="price">{{ product.price | money }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+.product-recommendations {
+  padding: 4rem 0;
+  background: #f8f8f8;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.recommendation-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.recommendation-card img {
+  width: 100%;
+  height: auto;
+}
+
+.recommendation-card h3 {
+  padding: 1rem;
+  font-size: 1.1rem;
+  color: var(--primary-color, #2D5F3F);
+}
+
+.recommendation-card .price {
+  padding: 0 1rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color, #2D5F3F);
+}
+
+@media (max-width: 1024px) {
+  .recommendations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Product Recommendations",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Product Recommendations"
+    }
+  ]
+}
+{% endschema %}
