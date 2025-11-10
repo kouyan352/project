@@ -1,10 +1,10 @@
 {% comment %}
   Opening Animation Section
-  シンプル版：枯れた植物 → 元気な小さな観葉植物
+  枯れた植物 → スマホで相談 → 元気な小さな観葉植物
 {% endcomment %}
 <div id="opening-animation" class="opening-animation">
   <div class="animation-container">
-    <!-- シンプルな2シーン：枯れた植物 → 元気な小さな植物 -->
+    <!-- 3シーン：枯れた植物 → スマホで相談 → 元気な小さな植物 -->
     <div class="cinematic-scene">
       <!-- Scene 1: 枯れた植物 -->
       <div class="scene-layer scene-1">
@@ -20,8 +20,34 @@
         <div class="worry-text">元気がない...</div>
       </div>
 
-      <!-- Scene 2: 元気な小さな観葉植物 -->
+      <!-- Scene 2: スマホで相談 -->
       <div class="scene-layer scene-2">
+        <div class="phone-scene">
+          <!-- スマホ画面 -->
+          <div class="phone-body">
+            <div class="screen">
+              <div class="line-header">
+                <div class="line-logo">LINE</div>
+              </div>
+              <div class="chat-content">
+                <div class="message-bubble sent">葉が枯れてきました😢</div>
+                <div class="message-bubble received">
+                  <div class="typing-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+                <div class="message-bubble received expert">
+                  水やりを調整しましょう！💧<br>
+                  <small>専門家がサポート</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 3: 元気な小さな観葉植物 -->
+      <div class="scene-layer scene-3">
         <div class="final-scene">
           <!-- 小さな観葉植物（小鉢） -->
           <div class="small-plant">
@@ -56,7 +82,7 @@
 </div>
 
 <style>
-/* Simple Opening Animation */
+/* Opening Animation */
 .opening-animation {
   position: fixed;
   top: 0;
@@ -214,8 +240,126 @@
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Scene 2: 元気な小さな観葉植物 */
+/* Scene 2: スマホで相談 */
 .scene-2 {
+  perspective: 1000px;
+}
+
+.phone-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* スマホ */
+.phone-body {
+  width: 320px;
+  height: 600px;
+  background: #0a0a0a;
+  border-radius: 40px;
+  padding: 15px;
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.8),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+  animation: phoneSlideIn 0.8s ease-out;
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 30px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.line-header {
+  background: #06c755;
+  padding: 1.5rem 1rem 1rem;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.line-logo {
+  letter-spacing: 0.1em;
+}
+
+.chat-content {
+  flex: 1;
+  padding: 2rem 1rem;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.message-bubble {
+  padding: 1rem 1.5rem;
+  border-radius: 18px;
+  max-width: 75%;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: messagePop 0.4s ease-out backwards;
+}
+
+.message-bubble.sent {
+  background: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  animation-delay: 0.3s;
+}
+
+.message-bubble.received {
+  background: white;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  animation-delay: 0.8s;
+}
+
+.message-bubble.expert {
+  background: #06c755;
+  color: white;
+  animation-delay: 1.5s;
+}
+
+.message-bubble small {
+  opacity: 0.9;
+  font-size: 0.85rem;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  padding: 0.5rem;
+}
+
+.typing-dots span {
+  width: 8px;
+  height: 8px;
+  background: #999;
+  border-radius: 50%;
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Scene 3: 元気な小さな観葉植物 */
+.scene-3 {
   flex-direction: column;
 }
 
@@ -464,6 +608,39 @@
   }
 }
 
+@keyframes phoneSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes messagePop {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
 @keyframes plantAppear {
   0% {
     opacity: 0;
@@ -517,6 +694,11 @@
     font-size: 1.2rem;
   }
   
+  .phone-body {
+    width: 260px;
+    height: 500px;
+  }
+  
   .small-plant {
     width: 90px;
     height: 140px;
@@ -563,23 +745,29 @@
     return;
   }
   
-  // シンプルな2シーンアニメーション
+  // 3シーンアニメーション
   const scenes = document.querySelectorAll('.scene-layer');
-  const totalDuration = 4000; // 合計4秒に短縮
+  const totalDuration = 5500; // 合計5.5秒
   
   function startAnimation() {
     document.body.style.overflow = 'hidden';
     
-    // Scene 1: 枯れた植物 (0s-2s)
+    // Scene 1: 枯れた植物 (0s-1.5s)
     setTimeout(() => {
       scenes[0].classList.add('active');
     }, 0);
     
-    // Scene 2: 元気な植物 (2s-4s)
+    // Scene 2: スマホで相談 (1.5s-3.5s)
     setTimeout(() => {
       scenes[0].classList.remove('active');
       scenes[1].classList.add('active');
-    }, 2000);
+    }, 1500);
+    
+    // Scene 3: 元気な植物 (3.5s-5.5s)
+    setTimeout(() => {
+      scenes[1].classList.remove('active');
+      scenes[2].classList.add('active');
+    }, 3500);
     
     // アニメーション終了
     setTimeout(() => {
