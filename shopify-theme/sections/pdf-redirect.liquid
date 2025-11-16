@@ -1,0 +1,185 @@
+{% comment %}
+  PDFに直接リダイレクトするセクション
+{% endcomment %}
+
+<div class="pdf-redirect-wrapper">
+  <div class="pdf-redirect-container">
+    <div class="loading-message">
+      <h1>{{ section.settings.title }}</h1>
+      <p>{{ section.settings.description }}</p>
+      <div class="spinner"></div>
+      <p class="redirect-text">PDFを読み込んでいます...</p>
+      
+      <div class="manual-buttons">
+        <a href="{{ 'manual-plant-care-guide.pdf' | asset_url }}" class="pdf-btn" target="_blank">
+          📄 PDFを開く
+        </a>
+        
+        {% if section.settings.show_contact_button %}
+          <a href="{{ section.settings.contact_url }}" class="line-btn">
+            💬 {{ section.settings.contact_button_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ページ読み込み時にPDFを新しいタブで開く
+  window.addEventListener('DOMContentLoaded', function() {
+    var pdfUrl = "{{ 'manual-plant-care-guide.pdf' | asset_url }}";
+    
+    // 1秒後にPDFを開く
+    setTimeout(function() {
+      window.location.href = pdfUrl;
+    }, 1000);
+  });
+</script>
+
+<style>
+  .pdf-redirect-wrapper {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .pdf-redirect-container {
+    max-width: 500px;
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    padding: 48px 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+
+  .loading-message h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2D5F3F;
+    margin-bottom: 16px;
+  }
+
+  .loading-message p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    margin: 32px auto;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #2ECC71;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .redirect-text {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 32px;
+  }
+
+  .manual-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pdf-btn,
+  .line-btn {
+    display: block;
+    padding: 16px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .pdf-btn {
+    background: #2ECC71;
+    color: white;
+  }
+
+  .pdf-btn:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+  }
+
+  .line-btn {
+    background: #06C755;
+    color: white;
+  }
+
+  .line-btn:hover {
+    background: #05b04b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 199, 85, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .pdf-redirect-container {
+      padding: 32px 24px;
+    }
+
+    .loading-message h1 {
+      font-size: 24px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "PDFリダイレクト",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "タイトル",
+      "default": "観葉植物 保証・ケアマニュアル"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "説明文",
+      "default": "ジーファイブの「枯らさないサポート保証」と基本ルールをご確認ください。"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact_button",
+      "label": "お問い合わせボタンを表示",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "contact_button_text",
+      "label": "ボタンテキスト",
+      "default": "LINEでお問い合わせ"
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "お問い合わせURL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDFリダイレクト"
+    }
+  ]
+}
+{% endschema %}
