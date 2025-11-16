@@ -1,0 +1,233 @@
+{% comment %}
+  シンプルなPDFマニュアルページ
+  LINEから直接アクセスしてPDFを表示
+{% endcomment %}
+
+<div class="pdf-manual-wrapper">
+  <div class="pdf-manual-container">
+    {% if section.settings.show_title %}
+      <h1 class="pdf-manual-title">{{ section.settings.title }}</h1>
+    {% endif %}
+
+    {% if section.settings.show_description %}
+      <p class="pdf-manual-description">{{ section.settings.description }}</p>
+    {% endif %}
+
+    <div class="pdf-viewer-container">
+      <iframe 
+        src="{{ 'manual-plant-care-guide.pdf' | asset_url }}" 
+        class="pdf-iframe"
+        title="観葉植物ケアマニュアル"
+      ></iframe>
+    </div>
+
+    <div class="pdf-actions">
+      <a href="{{ 'manual-plant-care-guide.pdf' | asset_url }}" class="pdf-download-btn" download>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        PDFをダウンロード
+      </a>
+
+      {% if section.settings.show_contact_button %}
+        <a href="{{ section.settings.contact_url }}" class="contact-btn">
+          {{ section.settings.contact_button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .pdf-manual-wrapper {
+    min-height: 100vh;
+    background: {{ section.settings.background_color }};
+    padding: 20px;
+  }
+
+  .pdf-manual-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .pdf-manual-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: {{ section.settings.title_color }};
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .pdf-manual-description {
+    font-size: 15px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .pdf-viewer-container {
+    width: 100%;
+    height: 80vh;
+    min-height: 600px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .pdf-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .pdf-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .pdf-download-btn,
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .pdf-download-btn {
+    background: {{ section.settings.accent_color }};
+    color: white;
+  }
+
+  .pdf-download-btn:hover {
+    background: {{ section.settings.accent_color | color_darken: 10 }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .contact-btn {
+    background: #06C755;
+    color: white;
+  }
+
+  .contact-btn:hover {
+    background: #05b04b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 768px) {
+    .pdf-manual-wrapper {
+      padding: 15px;
+    }
+
+    .pdf-manual-container {
+      padding: 20px;
+    }
+
+    .pdf-manual-title {
+      font-size: 22px;
+    }
+
+    .pdf-viewer-container {
+      height: 70vh;
+      min-height: 500px;
+    }
+
+    .pdf-actions {
+      flex-direction: column;
+    }
+
+    .pdf-download-btn,
+    .contact-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "PDFマニュアル（シンプル）",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "タイトルを表示",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "タイトル",
+      "default": "観葉植物 保証・ケアマニュアル"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "説明文を表示",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "説明文",
+      "default": "植物を枯らさないための保証とケア方法をご案内します。"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact_button",
+      "label": "お問い合わせボタンを表示",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "contact_button_text",
+      "label": "ボタンテキスト",
+      "default": "LINEでお問い合わせ"
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "お問い合わせURL",
+      "info": "LINEのURLなど"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "背景色",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "タイトル色",
+      "default": "#2D5F3F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "アクセントカラー",
+      "default": "#2ECC71"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDFマニュアル（シンプル）"
+    }
+  ]
+}
+{% endschema %}

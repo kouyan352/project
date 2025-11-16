@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "pdf_manual": {
+      "type": "manual-pdf-simple",
+      "settings": {
+        "show_title": true,
+        "title": "観葉植物 保証・ケアマニュアル",
+        "show_description": true,
+        "description": "ジーファイブの「枯らさないサポート保証」と基本ルールをご確認ください。",
+        "show_contact_button": true,
+        "contact_button_text": "LINEでお問い合わせ",
+        "contact_url": "",
+        "background_color": "#f8f9fa",
+        "title_color": "#2D5F3F",
+        "accent_color": "#2ECC71"
+      }
+    }
+  },
+  "order": [
+    "pdf_manual"
+  ]
+}
