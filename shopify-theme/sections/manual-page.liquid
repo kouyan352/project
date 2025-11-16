@@ -15,6 +15,19 @@
       </div>
     {% endif %}
 
+    {% if section.settings.show_pdf_download %}
+      <div class="manual-pdf-download">
+        <a href="{{ 'manual-plant-care-guide.pdf' | asset_url }}" class="pdf-download-btn" download>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          PDFをダウンロード
+        </a>
+      </div>
+    {% endif %}
+
     <div class="manual-content">
       {{ section.settings.content }}
     </div>
@@ -64,10 +77,74 @@
     border-left: 4px solid {{ section.settings.accent_color }};
   }
 
+  .manual-pdf-download {
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .pdf-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8f9fa;
+    color: {{ section.settings.title_color }};
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 2px solid {{ section.settings.accent_color }};
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .pdf-download-btn:hover {
+    background: {{ section.settings.accent_color }};
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .pdf-download-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
   .manual-content {
     font-size: 15px;
     line-height: 1.9;
     color: #333;
+  }
+
+  .manual-content ul,
+  .manual-content ol {
+    margin: 16px 0;
+    padding-left: 24px;
+  }
+
+  .manual-content li {
+    margin-bottom: 12px;
+    line-height: 1.8;
+  }
+
+  .manual-content hr {
+    margin: 32px 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .manual-content em {
+    color: #666;
+    font-style: italic;
+  }
+
+  .manual-content strong {
+    font-weight: 600;
+    color: #222;
+  }
+
+  .manual-content small {
+    font-size: 13px;
+    color: #777;
   }
 
   .manual-content h2 {
@@ -90,16 +167,6 @@
 
   .manual-content p {
     margin-bottom: 16px;
-  }
-
-  .manual-content ul,
-  .manual-content ol {
-    margin: 16px 0;
-    padding-left: 24px;
-  }
-
-  .manual-content li {
-    margin-bottom: 8px;
   }
 
   .manual-content a {
@@ -211,6 +278,12 @@
       "id": "content",
       "label": "マニュアル本文",
       "info": "マニュアルの内容を入力してください"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pdf_download",
+      "label": "PDFダウンロードボタンを表示",
+      "default": true
     },
     {
       "type": "checkbox",
