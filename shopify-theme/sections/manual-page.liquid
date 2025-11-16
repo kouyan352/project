@@ -1,0 +1,258 @@
+{% comment %}
+  マニュアルページセクション
+  LINEから直接アクセスする非公開ページ用
+{% endcomment %}
+
+<div class="manual-page-wrapper">
+  <div class="manual-container">
+    {% if section.settings.show_title %}
+      <h1 class="manual-title">{{ section.settings.title }}</h1>
+    {% endif %}
+
+    {% if section.settings.show_description %}
+      <div class="manual-description">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+
+    <div class="manual-content">
+      {{ section.settings.content }}
+    </div>
+
+    {% if section.settings.show_contact_button %}
+      <div class="manual-contact">
+        <a href="{{ section.settings.contact_url }}" class="manual-contact-btn">
+          {{ section.settings.contact_button_text }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .manual-page-wrapper {
+    min-height: 100vh;
+    background: {{ section.settings.background_color }};
+    padding: 60px 20px;
+  }
+
+  .manual-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .manual-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: {{ section.settings.title_color }};
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .manual-description {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 32px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid {{ section.settings.accent_color }};
+  }
+
+  .manual-content {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #333;
+  }
+
+  .manual-content h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: {{ section.settings.title_color }};
+    margin-top: 40px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid {{ section.settings.accent_color }};
+  }
+
+  .manual-content h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+
+  .manual-content p {
+    margin-bottom: 16px;
+  }
+
+  .manual-content ul,
+  .manual-content ol {
+    margin: 16px 0;
+    padding-left: 24px;
+  }
+
+  .manual-content li {
+    margin-bottom: 8px;
+  }
+
+  .manual-content a {
+    color: {{ section.settings.accent_color }};
+    text-decoration: underline;
+  }
+
+  .manual-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+
+  .manual-content code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+  }
+
+  .manual-content pre {
+    background: #f5f5f5;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+
+  .manual-contact {
+    margin-top: 48px;
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .manual-contact-btn {
+    display: inline-block;
+    background: {{ section.settings.accent_color }};
+    color: white;
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .manual-contact-btn:hover {
+    background: {{ section.settings.accent_color | color_darken: 10 }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 768px) {
+    .manual-page-wrapper {
+      padding: 30px 15px;
+    }
+
+    .manual-container {
+      padding: 24px;
+    }
+
+    .manual-title {
+      font-size: 24px;
+    }
+
+    .manual-content h2 {
+      font-size: 20px;
+    }
+
+    .manual-content h3 {
+      font-size: 18px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "マニュアルページ",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "タイトルを表示",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "タイトル",
+      "default": "ご利用マニュアル"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "説明文を表示",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "説明文",
+      "default": "<p>Green Careサービスのご利用方法をご案内します。</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "マニュアル本文",
+      "info": "マニュアルの内容を入力してください"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact_button",
+      "label": "お問い合わせボタンを表示",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "contact_button_text",
+      "label": "ボタンテキスト",
+      "default": "LINEでお問い合わせ"
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "お問い合わせURL",
+      "info": "LINEのURLなど"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "背景色",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "タイトル色",
+      "default": "#2D5F3F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "アクセントカラー",
+      "default": "#2ECC71"
+    }
+  ],
+  "presets": [
+    {
+      "name": "マニュアルページ"
+    }
+  ]
+}
+{% endschema %}
