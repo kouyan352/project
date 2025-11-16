@@ -1,0 +1,219 @@
+{% comment %}
+  マニュアル一覧表示スニペット
+  使い方: {% render 'manual-list' %}
+{% endcomment %}
+
+<div class="manual-list-wrapper">
+  <div class="manual-list-container">
+    <h1 class="manual-list-title">ご利用マニュアル</h1>
+    <p class="manual-list-description">植物ケアに関する各種マニュアルをご確認いただけます。</p>
+    
+    <div class="manual-grid">
+      <!-- マニュアル1: 保証・ケアマニュアル -->
+      <div class="manual-card">
+        <div class="manual-icon">📋</div>
+        <h2 class="manual-card-title">保証・ケアマニュアル</h2>
+        <p class="manual-card-description">枯らさないサポート保証と基本的なケア方法</p>
+        <div class="manual-card-actions">
+          <a href="{{ 'manual-plant-care-guide.pdf' | asset_url }}" class="manual-btn primary" target="_blank">
+            📄 PDFを見る
+          </a>
+          <a href="{{ 'manual-plant-care-guide.pdf' | asset_url }}" class="manual-btn secondary" download>
+            ⬇️ ダウンロード
+          </a>
+        </div>
+      </div>
+
+      <!-- 今後のマニュアル追加用テンプレート（コメントアウト） -->
+      {% comment %}
+      <div class="manual-card">
+        <div class="manual-icon">🌱</div>
+        <h2 class="manual-card-title">水やりガイド</h2>
+        <p class="manual-card-description">季節ごとの水やり方法</p>
+        <div class="manual-card-actions">
+          <a href="{{ 'manual-watering-guide.pdf' | asset_url }}" class="manual-btn primary" target="_blank">
+            📄 PDFを見る
+          </a>
+          <a href="{{ 'manual-watering-guide.pdf' | asset_url }}" class="manual-btn secondary" download>
+            ⬇️ ダウンロード
+          </a>
+        </div>
+      </div>
+      {% endcomment %}
+    </div>
+
+    <!-- LINEお問い合わせボタン -->
+    <div class="manual-contact-section">
+      <h3>困った時は</h3>
+      <p>植物の状態に不安を感じたら、すぐにLINEでご相談ください。</p>
+      <a href="https://line.me/ti/p/YOUR_LINE_ID" class="line-contact-btn">
+        💬 LINEでお問い合わせ
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .manual-list-wrapper {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 60px 20px;
+  }
+
+  .manual-list-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .manual-list-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #2D5F3F;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .manual-list-description {
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .manual-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+
+  .manual-card {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .manual-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .manual-icon {
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .manual-card-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #2D5F3F;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .manual-card-description {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .manual-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .manual-btn {
+    display: block;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .manual-btn.primary {
+    background: #2ECC71;
+    color: white;
+  }
+
+  .manual-btn.primary:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+  }
+
+  .manual-btn.secondary {
+    background: #f0f0f0;
+    color: #333;
+  }
+
+  .manual-btn.secondary:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+  }
+
+  .manual-contact-section {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .manual-contact-section h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2D5F3F;
+    margin-bottom: 12px;
+  }
+
+  .manual-contact-section p {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+
+  .line-contact-btn {
+    display: inline-block;
+    background: #06C755;
+    color: white;
+    padding: 16px 40px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .line-contact-btn:hover {
+    background: #05b04b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .manual-list-wrapper {
+      padding: 40px 15px;
+    }
+
+    .manual-list-title {
+      font-size: 28px;
+    }
+
+    .manual-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .manual-contact-section {
+      padding: 32px 24px;
+    }
+  }
+</style>

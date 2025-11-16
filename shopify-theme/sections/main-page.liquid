@@ -1,0 +1,83 @@
+{% comment %}
+  メインページセクション
+  ページコンテンツを表示
+{% endcomment %}
+
+<div class="page-wrapper">
+  <div class="page-container">
+    <h1 class="page-title">{{ page.title }}</h1>
+    <div class="page-content">
+      {{ page.content }}
+    </div>
+  </div>
+</div>
+
+<style>
+  .page-wrapper {
+    padding: 60px 20px;
+  }
+
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2D5F3F;
+    margin-bottom: 24px;
+  }
+
+  .page-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+  }
+
+  .page-content h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: #2D5F3F;
+  }
+
+  .page-content h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+
+  .page-content p {
+    margin-bottom: 16px;
+  }
+
+  .page-content ul,
+  .page-content ol {
+    margin: 16px 0;
+    padding-left: 24px;
+  }
+
+  .page-content li {
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .page-wrapper {
+      padding: 40px 15px;
+    }
+
+    .page-title {
+      font-size: 24px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "ページ",
+  "settings": []
+}
+{% endschema %}

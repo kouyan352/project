@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "manual_hub": {
+      "type": "manual-hub"
+    }
+  },
+  "order": [
+    "manual_hub"
+  ]
+}
